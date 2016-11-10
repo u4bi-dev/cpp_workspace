@@ -22,6 +22,14 @@ struct player{
     int id;
     char name[24];
     float exp;
+    
+    void show(){
+        cout << "번호 : " <<id << endl;
+        cout << "이름 : " <<name << endl;
+        cout << "경험 : " <<exp << endl;
+    }
+    /*  구조체 내에 함수 사용 : void show()
+    */
 };
 
 void func(int a){ cout << "int a : " << a << endl; }
@@ -49,6 +57,10 @@ int main() {
     cout << "번호 : " <<p.id << endl;
     cout << "이름 : " <<p.name << endl;
     cout << "경험 : " <<p.exp << endl;
+    
+    p.show();
+    /*  구조체 내의 함수를 구초체 변수에 접근하듯 호출함
+    */
     
     int * ptr1 = new int;
     int * ptr2 = new int[10];
