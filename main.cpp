@@ -1,60 +1,39 @@
 #include <iostream> 
 
-/*  using이란건 네임스페이스를 쉽게 사용할 수 있도록 도와주는 역할을 함.
-    using에는 지시자와 선언자가 있음.
+/*  함수 오버로딩이란 함수명은 같으며 인자의 자료형이나
+    수가 다른 함수의 선언을 허용하는 것을 말함.
     
-    예로 우리가 네임스페이스를 사용하며 네임스페이스 내에 있는 함수를 빈번하게
-    호출할 경우 네임스페이스명과 범위 지정 연산자를 추가로 적어야하므로 여간 귀찮은게 아님.
-    
-    그냥 함수 이름만 써놓고 이 함수를 호출할때는 어느 네임스페이스 내에 있는 함수를 호출하겠다.
-    라고 해두면 얼마나 좋을까 라는거임.
-    
-    이런 문제를 바로 using이 해결함.
+    c++에서는 두 함수의 이름이 같아도 컴파일러가 오류를 발생안시킴.
 */
 
-namespace u4bi{
-    void good(){
-        printf("u4bi c++ \n");
-    }
-}
+namespace A { void Add() { printf("A의 Add() 호출 \n");}}
+namespace B { void Add() { printf("B의 Add() 호출 \n");}}
 
+namespace u4bi{ void good(){ printf("u4bi c++ \n"); } }
 namespace github{
-    void win(){
-        printf("github win\n");
-    }
-    
-    void lose(){
-        printf("github lose\n");
-    }
-}
-
-namespace A {
-    void Add() {
-        printf("A의 Add() 호출 \n");
-    }
-}
- 
-namespace B {
-    void Add() {
-        printf("B의 Add() 호출 \n");
-    }
+    void win(){ printf("github win\n");}
+    void lose(){ printf("github lose\n");}
 }
 
 using namespace u4bi;
-/*  using 지시자를 사용
-    이건 u4bi라는 네임스페이스를 명시적으로 사용하겠다는 말임.
-    
-    이렇게 되면 더이상 귀찮게 네임스페이스명을 붙일 필요가 없어짐.
-    즉 네임스페이스 전체를 가져온 셈임.
-*/
 using github::win;
-/*  using 선언자를 사용
-    github 네임스페이스에 있는 win 함수만 사용하도록 명시함.
-    
-    참고로 네임스페이스에 있는 함수와 이미 영역에 존재하는
-    함수의 이름이 겹치면 충돌한다함.
+
+using namespace std;
+void func(int a){
+    cout << "int a : " << a << endl;
+}
+void func(int a, int b){
+    cout << "int a : " << a << " int b : " << b << endl;
+}
+/*  함수 오버로딩의 특징
+    함수명이 같아야 함.
+    [매개변수의 수가 다르거나] 아니면 [그 매개변수의 수가 같고 자료형이 달라야 함].
 */
+
 int main() {
+    
+    func(4);
+    func(5, 6);
     
     good();
     
