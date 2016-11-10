@@ -1,7 +1,13 @@
 #include <iostream> 
 
-/*  구조체를 사용하여 관련있는 변수들끼리 묶어 손쉽게 관리할 수 있음
-    C++ 구조체
+/*  C++의 접근 제어 지시자에는 public, private, protected가 있음
+    만약 접근 제어가 생략될 경우 기본적으로 public멤버로 간주 됨.
+    
+    public : 어디서든 접근이 가능
+    private : 외부에서 접근이 불가능
+    protected : 외부에서 접근이 불가능하나 상속된 파생 클래스에서는 접근이 허용
+    
+    protected는 상속관련 항목에서 다시 다룸
 */
 
 namespace A { void Add() { printf("A의 Add() 호출 \n");}}
@@ -17,6 +23,36 @@ using namespace u4bi;
 using github::win;
 
 using namespace std;
+
+struct user{
+private:
+    int id;
+    char *name;
+    float exp;
+public:
+    void show();
+    void setInfo(int _id, char * _name, float _exp);
+/*  28행과 32행을 보면 각각 private와 public 지시자가 쓰여있음.
+    이는 멤버 변수인 id, name, exp의 접근이 private로 제한 되었음을 의미
+    
+    그리고 지시자를 사용할 때 private: public : 이런식으로
+    지시자 뒤에 :를 붙혀서 사용해야 한다고 함
+    
+    show() 와 showInfo()는 public 지시자로 지정 됨
+*/
+};
+
+void user::show(){
+    cout << "번호 : " << id << endl;
+    cout << "이름 : " << name << endl;
+    cout << "경험 : " << exp << endl;
+}
+
+void user::setInfo(int _id, char * _name, float _exp){
+    id = _id;
+    name = _name;
+    exp = _exp;
+}
 
 struct player{
     int id;
@@ -60,6 +96,12 @@ void NewDeleteExample(){
 }
 
 int main() {
+    
+    user u;
+    //u.id = 1
+    /* u.id = 1 은 위에서 private 지시자로 설정 외부에서 접근 불가 내부에서만 가능*/
+    u.setInfo(123, "u4bi", 55.6);
+    u.show();
     
     player p = {1, "u4bi", 67.5};
     cout << "번호 : " <<p.id << endl;
