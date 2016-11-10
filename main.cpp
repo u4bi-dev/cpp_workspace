@@ -1,13 +1,20 @@
 #include <iostream> 
 
-/*  C++의 접근 제어 지시자에는 public, private, protected가 있음
-    만약 접근 제어가 생략될 경우 기본적으로 public멤버로 간주 됨.
+/*  C++ 클래스는 쉽게 말하자면 C의 구조체에서 확장된 C++의
+    구조체의 또 다른 이름
     
-    public : 어디서든 접근이 가능
-    private : 외부에서 접근이 불가능
-    protected : 외부에서 접근이 불가능하나 상속된 파생 클래스에서는 접근이 허용
+    클래스는 변수와 함께 함수까지도 포함시킬 수 있음
     
-    protected는 상속관련 항목에서 다시 다룸
+    그럼 C++의 구조체와 클래스는 다른게 무엇인가?
+    구조체와 클래스의 차이점은 기본 접근 제한자의 차이일뿐
+    그 이상 다른게 없다고 함.
+    
+    구조체 같은 경우 기본 접근 제한자가 public
+    클래스의 기본 접근 제한자는 private으로 제한되어 있음.
+    
+    둘다 동일한 기능을 하면서도 왜 사라지지 않을까요?
+    해답은 C언어와의 하위 호환성을 위해서 남겨 두었다고 함.
+    
 */
 
 namespace A { void Add() { printf("A의 Add() 호출 \n");}}
@@ -24,6 +31,29 @@ using github::win;
 
 using namespace std;
 
+/* child 클래스 - OOP적인 구조로 정의
+
+    class 클래스명{
+        멤버변수 (상태),
+        멤버 함수(행동)..
+    }
+*/
+class child{
+private:
+    char *name;
+    int age;
+    char *hobby;
+public:
+    void ShowInfo();
+    void SetInfo(char *_name, int _age, char *_hobby);
+    void Study();
+    void Sleep();
+};
+void child::ShowInfo(){}
+void child::SetInfo(char *_name, int _age, char *_hobby){}
+void child::Study(){}
+void child::Sleep(){}
+
 struct user{
 private:
     int id;
@@ -32,14 +62,6 @@ private:
 public:
     void show();
     void setInfo(int _id, char * _name, float _exp);
-/*  28행과 32행을 보면 각각 private와 public 지시자가 쓰여있음.
-    이는 멤버 변수인 id, name, exp의 접근이 private로 제한 되었음을 의미
-    
-    그리고 지시자를 사용할 때 private: public : 이런식으로
-    지시자 뒤에 :를 붙혀서 사용해야 한다고 함
-    
-    show() 와 showInfo()는 public 지시자로 지정 됨
-*/
 };
 
 void user::show(){
@@ -64,12 +86,9 @@ struct player{
         cout << "이름 : " <<name << endl;
         cout << "경험 : " <<exp << endl;
     }
-    /*  구조체 내에 함수 사용 : void show()
-    */
     void show_Example2();
 };
 
-/* 함수의 정의를 밖으로 빼낼 수도 있음. 이 역시 결과 같음. */
 void player::show_Example2(){
     cout << "번호 : " <<id << endl;
     cout << "이름 : " <<name << endl;
@@ -98,8 +117,6 @@ void NewDeleteExample(){
 int main() {
     
     user u;
-    //u.id = 1
-    /* u.id = 1 은 위에서 private 지시자로 설정 외부에서 접근 불가 내부에서만 가능*/
     u.setInfo(123, "u4bi", 55.6);
     u.show();
     
@@ -109,8 +126,6 @@ int main() {
     cout << "경험 : " <<p.exp << endl;
     
     p.show();
-    /*  구조체 내의 함수를 구초체 변수에 접근하듯 호출함
-    */
     p.show_Example2();
     
     int * ptr1 = new int;
