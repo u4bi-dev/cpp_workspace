@@ -3,6 +3,9 @@
 
 /*  멤버별 복사가 이루어지는 방식을 가르켜 얕은 복사(Shallow Copy)라고 함
     이 얕은 복사에 문제점을 살펴볼거임
+    
+    깊은복사(Deep Copy)에 대해 살펴보겠음
+    깊은 복사는 이전의 shallow 생성자내의 코드를 똑같이 구현하면 됨
 */
 
 namespace A { void Add() { printf("A의 Add() 호출 \n");}}
@@ -19,6 +22,31 @@ using github::win;
 
 using namespace std;
 
+class deep{
+private:
+    char *str;
+public:
+    deep(const char *_str){
+        str = new char[strlen(_str)+1];
+        strcpy(str, _str);
+    }
+    deep(const deep& dp){
+        str = new char[strlen(dp.str)+1];
+        strcpy(str, dp.str);
+    }
+    ~deep(){
+        delete []str;
+        cout << "~deep()" << endl;
+    }
+    void show(){
+        cout << "str : " << str << endl;
+    }
+};
+/*  shallow copy처럼 오류가 뜨지 않고 정상적으로 출력됨을 확인할 수 있음
+    
+    메모리 공간 할당 후 문자열을 복사함
+    그 다음에는 할당된 메모리의 주소를 str에 저장
+*/
 class shallow{
 private:
     char *str;
@@ -48,6 +76,10 @@ public:
     이미 sw2의 소멸자에 의해 해제되었으므로 오류가 발생하게 됨
     
     이를 해결하기 위해서 포인터를 참조하는 대상까지 복사하는 깊은복사(Deep Copy)가 필요하다고 함
+    
+    아 그리고 객체의 소멸 순서는 생성 순서의 반대임
+    즉 소멸자의 호출 순서는 생성자의 호출 순서의 역순이라고 말할 수 있음.
+    따라서 sw2부터 호출된 후 sw1이 호출
 */
 
 class dog{
@@ -185,11 +217,18 @@ void NewDeleteExample(){
 }
 
 int main() {
+
+    deep dp1("deep copy");
+    deep dp2 = dp1;
+    dp1.show();
+    dp2.show();
     
-    shallow sw1("shallow");
+    ///* deep copy test comment line
+    shallow sw1("shallow copy");
     shallow sw2 = sw1;
     sw1.show();
     sw2.show();
+	//*/
     
     dog d;
 
