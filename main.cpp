@@ -30,7 +30,15 @@ struct player{
     }
     /*  구조체 내에 함수 사용 : void show()
     */
+    void show_Example2();
 };
+
+/* 함수의 정의를 밖으로 빼낼 수도 있음. 이 역시 결과 같음. */
+void player::show_Example2(){
+    cout << "번호 : " <<id << endl;
+    cout << "이름 : " <<name << endl;
+    cout << "경험 : " <<exp << endl;
+}
 
 void func(int a){ cout << "int a : " << a << endl; }
 void func(int a, int b){ cout << "int a : " << a << " int b : " << b << endl; }
@@ -61,6 +69,7 @@ int main() {
     p.show();
     /*  구조체 내의 함수를 구초체 변수에 접근하듯 호출함
     */
+    p.show_Example2();
     
     int * ptr1 = new int;
     int * ptr2 = new int[10];
