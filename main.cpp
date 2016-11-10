@@ -1,6 +1,7 @@
 #include <iostream> 
 
-/*  복사 생성자(Copy Contructor)는 자신과 같은 자료형의 객체를 인수로 전달하는 생성자임
+/*  생성자가 객체 생성시 호출되는 함수라면 소멸자는 객체 소멸시 호출되는 함수임
+    주로 소멸자는 객체 소멸시 자동 호출되기에 객체의 메모리 반환 즉 리소스의 해제를 위해 사용된다 함.
 */
 
 namespace A { void Add() { printf("A의 Add() 호출 \n");}}
@@ -16,6 +17,21 @@ using namespace u4bi;
 using github::win;
 
 using namespace std;
+
+class dog{
+public:
+    dog(){
+        cout << "dog()" << endl;
+    }
+    ~dog(){
+        cout << "~dog()" << endl;
+    }
+};
+/*  생성자와 달리 클래스 이름 앞에 ~가 붙는 형태를 가짐
+    그리고 매개변수도 가질 수 없음 물론 반환형도 존재하지 않음
+    
+    또한 소멸자를 정의하지 않으면 컴파일러에서 디폴트 소멸자를 넣어줌
+*/
 
 class copied{
 private:
@@ -143,6 +159,12 @@ void NewDeleteExample(){
 
 int main() {
     
+    dog d;
+    /*  생성자 ~ 모든 실행타임이 종료되고난 후에 맨 끝나는 지점에서 소멸자가 호출된다고 함
+        객체의 소멸은 소멸자를 호출하고 나서 메모리를 반환하는 순서로 객체가 소멸 됨
+        
+        이 소멸자는 메모리 반환시에 반환되지 않은 메모리 공간을 명시적으로 반환하기 위해 사용함
+    */
     copied cp1(30, 31);
     copied cp2 = cp1;
     cp2.show();
