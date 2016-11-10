@@ -1,20 +1,8 @@
 #include <iostream> 
 
-/*  C++ 클래스는 쉽게 말하자면 C의 구조체에서 확장된 C++의
-    구조체의 또 다른 이름
-    
-    클래스는 변수와 함께 함수까지도 포함시킬 수 있음
-    
-    그럼 C++의 구조체와 클래스는 다른게 무엇인가?
-    구조체와 클래스의 차이점은 기본 접근 제한자의 차이일뿐
-    그 이상 다른게 없다고 함.
-    
-    구조체 같은 경우 기본 접근 제한자가 public
-    클래스의 기본 접근 제한자는 private으로 제한되어 있음.
-    
-    둘다 동일한 기능을 하면서도 왜 사라지지 않을까요?
-    해답은 C언어와의 하위 호환성을 위해서 남겨 두었다고 함.
-    
+/*  객체 생성시에 호출되는 생성자
+    private로 지정된 멤버 변수 초기화 시키기 위해 SetInfo 함수를 따로 만들어 초기화 함
+    그런데 이것보다 더 편하게 객체 생성과 동시에 초기화 시키는게 생성자임
 */
 
 namespace A { void Add() { printf("A의 Add() 호출 \n");}}
@@ -31,13 +19,24 @@ using github::win;
 
 using namespace std;
 
-/* child 클래스 - OOP적인 구조로 정의
+class human{
+private:
+    char *name;
+    int age;
+public:
+    human(char *_name, int age);
+    void ShowInfo();
+};
+/*  위의 형식처럼 생성자를 정의할 때 생성자의 이름이 클래스의 이름과 같음
+    생성자도 함수와 같이 매개변수를 가질 수 있음 그리고 반환형이 없음 */
+human::human(char *_name, int _age){
+    name = _name;
+    age = _age;
+}
+void human::ShowInfo(){
+    cout << "이름 : " << name << " 나이 : " << age << endl;
+}
 
-    class 클래스명{
-        멤버변수 (상태),
-        멤버 함수(행동)..
-    }
-*/
 class child{
 private:
     char *name;
@@ -125,6 +124,10 @@ void NewDeleteExample(){
 }
 
 int main() {
+    
+    /* 객체 생성시 호출되는 생성자에게 인자를 넘겨 초기화 시킴*/
+    human h("u4bi", 12);
+    h.ShowInfo();
     
     child c;
     c.SetInfo("u4bi", 11, "c++");
