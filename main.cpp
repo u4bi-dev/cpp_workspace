@@ -1,7 +1,8 @@
 #include <iostream> 
+#include <cstring>
 
-/*  생성자가 객체 생성시 호출되는 함수라면 소멸자는 객체 소멸시 호출되는 함수임
-    주로 소멸자는 객체 소멸시 자동 호출되기에 객체의 메모리 반환 즉 리소스의 해제를 위해 사용된다 함.
+/*  멤버별 복사가 이루어지는 방식을 가르켜 얕은 복사(Shallow Copy)라고 함
+    이 얕은 복사에 문제점을 살펴볼거임
 */
 
 namespace A { void Add() { printf("A의 Add() 호출 \n");}}
@@ -18,6 +19,37 @@ using github::win;
 
 using namespace std;
 
+class shallow{
+private:
+    char *str;
+public:
+    shallow(const char *_str){
+        str = new char[strlen(_str)+1];
+        strcpy(str, _str);
+    }
+    ~shallow(){
+        delete []str;
+        cout << "~shallow()" << endl;
+    }
+    void show(){
+        cout << "str: " << str << endl;        
+    }
+};
+/*  위 코드를 보면 ~shallow()가 단 한번만 출력되고 오류가 발생함
+    
+    생각해보면 sw1 선언과 동시에 생성자 내에서 str을 메모리에 할당
+    그리고 sw2 선언시에 디폴트 복사 생성자가 호출되고
+    메모리를 할당하지 않고 str의 포인터만 복사
+    
+    그런뒤에 sw2 객체가 먼저 소멸되고 sw2의 소멸자가 호출되고
+    str을 메모리 공간에서 해제 시킴
+    
+    그리고 sw1 소멸자가 호출되어 str 포인터가 가르키고 있는 메모리 공간을 해제하려 함
+    이미 sw2의 소멸자에 의해 해제되었으므로 오류가 발생하게 됨
+    
+    이를 해결하기 위해서 포인터를 참조하는 대상까지 복사하는 깊은복사(Deep Copy)가 필요하다고 함
+*/
+
 class dog{
 public:
     dog(){
@@ -27,11 +59,6 @@ public:
         cout << "~dog()" << endl;
     }
 };
-/*  생성자와 달리 클래스 이름 앞에 ~가 붙는 형태를 가짐
-    그리고 매개변수도 가질 수 없음 물론 반환형도 존재하지 않음
-    
-    또한 소멸자를 정의하지 않으면 컴파일러에서 디폴트 소멸자를 넣어줌
-*/
 
 class copied{
 private:
@@ -159,12 +186,13 @@ void NewDeleteExample(){
 
 int main() {
     
+    shallow sw1("shallow");
+    shallow sw2 = sw1;
+    sw1.show();
+    sw2.show();
+    
     dog d;
-    /*  생성자 ~ 모든 실행타임이 종료되고난 후에 맨 끝나는 지점에서 소멸자가 호출된다고 함
-        객체의 소멸은 소멸자를 호출하고 나서 메모리를 반환하는 순서로 객체가 소멸 됨
-        
-        이 소멸자는 메모리 반환시에 반환되지 않은 메모리 공간을 명시적으로 반환하기 위해 사용함
-    */
+
     copied cp1(30, 31);
     copied cp2 = cp1;
     cp2.show();
