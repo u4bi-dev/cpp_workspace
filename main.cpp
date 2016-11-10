@@ -24,6 +24,8 @@ private:
     char *name;
     int age;
 public:
+    human();
+    human(char *_name);
     human(char *_name, int age);
     void ShowInfo();
 };
@@ -33,6 +35,14 @@ human::human(char *_name, int _age){
     name = _name;
     age = _age;
 }
+/* 생성자도 함수중 하나니 함수 오버로딩이 가능함*/
+human::human(char *_name){
+    cout << "human(char name) overloading" << endl;
+}
+human::human(){
+    cout << "human() overloading" << endl;
+}
+
 void human::ShowInfo(){
     cout << "이름 : " << name << " 나이 : " << age << endl;
 }
