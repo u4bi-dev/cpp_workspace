@@ -49,10 +49,20 @@ public:
     void Study();
     void Sleep();
 };
-void child::ShowInfo(){}
-void child::SetInfo(char *_name, int _age, char *_hobby){}
-void child::Study(){}
-void child::Sleep(){}
+void child::ShowInfo(){
+    cout << "이름 : " << name << " 나이 : " << age << " 취미 : " << hobby << endl;
+}
+void child::SetInfo(char *_name, int _age, char *_hobby){
+    name = _name;
+    age = _age;
+    hobby = _hobby;
+}
+void child::Study(){
+    cout << "공부!" << endl;
+}
+void child::Sleep(){
+    cout << "잠!" << endl;
+}
 
 struct user{
 private:
@@ -115,6 +125,12 @@ void NewDeleteExample(){
 }
 
 int main() {
+    
+    child c;
+    c.SetInfo("u4bi", 11, "c++");
+    c.ShowInfo();
+    c.Study();
+    c.Sleep();
     
     user u;
     u.setInfo(123, "u4bi", 55.6);
