@@ -1,9 +1,7 @@
 #include <iostream> 
 
-/*  함수 오버로딩이란 함수명은 같으며 인자의 자료형이나
-    수가 다른 함수의 선언을 허용하는 것을 말함.
-    
-    c++에서는 두 함수의 이름이 같아도 컴파일러가 오류를 발생안시킴.
+/*  힙 영역에 메모리 공간을 할당할 수 있게 도와주는 함수
+    new 함수로 메모리를 동적 할당 delete로 동적 할당한 메모리를 해제함.
 */
 
 namespace A { void Add() { printf("A의 Add() 호출 \n");}}
@@ -19,18 +17,18 @@ using namespace u4bi;
 using github::win;
 
 using namespace std;
-void func(int a){
-    cout << "int a : " << a << endl;
-}
-void func(int a, int b){
-    cout << "int a : " << a << " int b : " << b << endl;
-}
-/*  함수 오버로딩의 특징
-    함수명이 같아야 함.
-    [매개변수의 수가 다르거나] 아니면 [그 매개변수의 수가 같고 자료형이 달라야 함].
-*/
+void func(int a){ cout << "int a : " << a << endl; }
+void func(int a, int b){ cout << "int a : " << a << " int b : " << b << endl; }
 
 int main() {
+    
+    int * ptr1 = new int; // 객체를 동적 할당
+    int * ptr2 = new int[10]; // 길이가 10인 객체의 배열을 동적 할당
+    delete ptr1; // 동적 할당된 객체를 소멸 - 3행
+    delete []ptr2; // 동적 할당된 객체의 배열을 소멸 - 4행
+    /*  동적 할당된 객체의 배열을 소멸시킬때는 4행처럼 작성해야 함
+        만약 3행처럼 소멸시킬다면 메모리 누수가 발생한다고 함.
+    */
     
     func(4);
     func(5, 6);
