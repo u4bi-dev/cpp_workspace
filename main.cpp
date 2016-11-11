@@ -1,11 +1,8 @@
 #include <iostream> 
 #include <cstring>
 
-/*  멤버별 복사가 이루어지는 방식을 가르켜 얕은 복사(Shallow Copy)라고 함
-    이 얕은 복사에 문제점을 살펴볼거임
-    
-    깊은복사(Deep Copy)에 대해 살펴보겠음
-    깊은 복사는 이전의 shallow 생성자내의 코드를 똑같이 구현하면 됨
+/*  bool 논리 자료형 말 그대로 참(true)과 거짓(false)으로만 구성되어 있는 자료형
+    true와 false는 어떤 값을 나타낼까
 */
 
 namespace A { void Add() { printf("A의 Add() 호출 \n");}}
@@ -42,11 +39,7 @@ public:
         cout << "str : " << str << endl;
     }
 };
-/*  shallow copy처럼 오류가 뜨지 않고 정상적으로 출력됨을 확인할 수 있음
-    
-    메모리 공간 할당 후 문자열을 복사함
-    그 다음에는 할당된 메모리의 주소를 str에 저장
-*/
+
 class shallow{
 private:
     char *str;
@@ -63,24 +56,6 @@ public:
         cout << "str: " << str << endl;        
     }
 };
-/*  위 코드를 보면 ~shallow()가 단 한번만 출력되고 오류가 발생함
-    
-    생각해보면 sw1 선언과 동시에 생성자 내에서 str을 메모리에 할당
-    그리고 sw2 선언시에 디폴트 복사 생성자가 호출되고
-    메모리를 할당하지 않고 str의 포인터만 복사
-    
-    그런뒤에 sw2 객체가 먼저 소멸되고 sw2의 소멸자가 호출되고
-    str을 메모리 공간에서 해제 시킴
-    
-    그리고 sw1 소멸자가 호출되어 str 포인터가 가르키고 있는 메모리 공간을 해제하려 함
-    이미 sw2의 소멸자에 의해 해제되었으므로 오류가 발생하게 됨
-    
-    이를 해결하기 위해서 포인터를 참조하는 대상까지 복사하는 깊은복사(Deep Copy)가 필요하다고 함
-    
-    아 그리고 객체의 소멸 순서는 생성 순서의 반대임
-    즉 소멸자의 호출 순서는 생성자의 호출 순서의 역순이라고 말할 수 있음.
-    따라서 sw2부터 호출된 후 sw1이 호출
-*/
 
 class dog{
 public:
@@ -216,19 +191,55 @@ void NewDeleteExample(){
     delete []score;
 }
 
-int main() {
+void boolNum(){
+    cout << true << endl;
+    cout << false << endl;
+    /*
+        true는 값이 1 false는 값이 0이라고 볼 수 있지만
+        그게 아니라 bool형은 참과 거짓으로만 구성되어 있다고 함.
+    */
+}
 
+void boolLen(){
+    cout << "sizeof true: " << sizeof true << endl;
+    cout << "sizeof false: " << sizeof false << endl;
+    /*  true가 차지하는 바이트 1바이트 false 역시도 1바이트
+        정리하자면 참과 거짓을 나타내며 1바이트를 차지하는 자료형이라고 볼 수 있음
+   */
+}
+
+void boolExample(){
+    int a, b;
+    bool isMax;
+    
+    cin >> a >> b;
+    
+    if(a>b) isMax = true;
+    else isMax = false;
+    
+    cout << "isMax : " << isMax << endl;
+    /*  a와 b를 입력받아 대소여부를 가려내는 간단한 예제
+        a가 더크면 참1 작으면 거짓0
+    */
+}
+
+int main() {
+        
+    boolNum();
+    boolLen();
+    boolExample();
+    
     deep dp1("deep copy");
     deep dp2 = dp1;
     dp1.show();
     dp2.show();
     
-    ///* deep copy test comment line
+    /* deep copy test comment line
     shallow sw1("shallow copy");
     shallow sw2 = sw1;
     sw1.show();
     sw2.show();
-	//*/
+	*/
     
     dog d;
 
@@ -272,9 +283,9 @@ int main() {
     
     A::Add();
     B::Add();
-    
+
     NewDeleteExample();
-        
+
     char name[10];
     int age;
     std::cin>>name>>age;
