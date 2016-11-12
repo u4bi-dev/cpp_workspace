@@ -1,16 +1,10 @@
 #include <iostream> 
 #include <cstring>
  
-/*  상속은 간단히 설명하면 부모님이 돌아가시면 부모님 재산을 모두 물려받게 되는 의미가 동일
-    상속도 C++에서 존재함
+/*  멤버 이니셜라이저는 방금처럼 부모 클래스의 멤버 변수를 초기화하기 위해서
+    생성자 함수를 호출한다던가 클래스내의 변수를 초기화한다던가 const 변수를 초기화 할 때도 사용된다고 함
     
-    Human 클래스는 부모 클래스라고 말할 수 있고 그 클래스를 상속한 Student 클래스는 자식 클래스라고 말할 수 있음.
-    
-    상속의 대상인 Human같은 클래스의 경우는
-    부모 클래스, 상위 클래스, 기초 클래스(base class), 슈퍼 클래스(super class)라고 함.
-    
-    상속을 하는 클래스인 Student같은 클래스의 경우는
-    자식 클래스, 하위 클래스, 유도 클래스(derived class), 서브 클래스(sub class)라고 함
+    멤버 이니셜라이저는 생성자의 몸체 부분보다 먼저 실행된다는 특징이 있음
 */
 
 #define PI 3.141592
@@ -34,30 +28,33 @@ using github::win;
 
 using namespace std;
 
+class memInit{
+private:
+    int num_a;
+    int num_b;
+public:
+    memInit(int _num_a, int _num_b) : num_a(_num_a), num_b(_num_b){}
+    /* 콜론 : 연산자 뒤에 num_a() num_b()와 같이 쓰였는데 이는
+        _num_a의 값으로 num_a의 값을 초기화하고 _num_b의 값으로 num_b의 값을 초기화한단 뜻 */
+    void show(){
+        cout << "num a : " << num_a << " num b : " << num_b << endl;
+    }
+};
+
 class Human{
 private:
     int age;
     char name[10];
     char hobby[20];
 public:
-    /*  :age(_age)란 코드는 Human 클래스의 생성자로 _age 인자가 넘어오면
-        Human 클래스내의 멤버 변수인 age값을 _age로 초기화 시켜주는 역할임 */
     Human(int _age, char *_name, char *_hobby) : age(_age){
         strcpy(name, _name);
         strcpy(hobby, _hobby);
     }
-    void getup(){
-        cout << "기상!" << endl;
-    }
-    void sleep(){
-        cout << "취침!" << endl;
-    }
-    void eat(){
-        cout << "식사!" << endl;
-    }
-    void study(){
-        cout << "공부!" << endl;
-    }
+    void getup(){ cout << "기상!" << endl; }
+    void sleep(){ cout << "취침!" << endl; }
+    void eat(){ cout << "식사!" << endl; }
+    void study(){ cout << "공부!" << endl; }
     void showInfo(){
         cout << "이름 : " << name << endl;
         cout << "나이 : " << age << endl;
@@ -65,16 +62,10 @@ public:
     }
 };
 class Student : public Human {
-/* Student 클래스에서 Human 클래스를 public으로 상속함*/
 private:
     char school[30];
 public:
     Student(int _age, char *_name, char *_hobby, char *_school) : Human(_age, _name, _hobby){
-        /*  Human 클래스와 마찬가지로 멤버 이니셜라이저가 사용
-        
-            Student클래스에서 Human 클래스 내의 매개변수가 있는 생성자를 호출하고
-            _age, _name, _hobby를 각각 넘겨 age, name, hobby의 값으로 초기화 함
-        */
         strcpy(school, _school);
     }
     void schoolInfo(){
@@ -339,20 +330,18 @@ void callByReferenceExample(){
 
 int main() {
 
+    memInit mi(50, 70);
+    /*  mi 객체를 만들고 생성자에 50과 70이란 값을 넘김
+        여기서 멤버 이니셜라이저를 통해 멤버 변수가 초기화되고 생성자의 몸체 부분이 실행 */
+    mi.show();
+    /* show()함수를 통해 출력하고 결과를 확인하면 정상적으로 초기화 됨을 확인가능 */
+ 
     Student stu(12, "u4bi", "coding", "c++ school");
-    /*  stu라는 객체를 만들고 그 안의 값을 생성자로 넘겨주어 초기화
-        그 후 함수들을 호출
-    */
     stu.schoolInfo();
     stu.getup();
     stu.eat();
     stu.study();
     stu.sleep();
-    /*  Student 클래스에서 Human 클래스내의 함수까지 호출하고 있음
-        당연히 물려받았으니 사용 가능함
-        
-        다만, private의 멤버는 상속이 불가능
-    */
     
     Friend_A friend_a(10);
     Friend_B friend_b(20);
