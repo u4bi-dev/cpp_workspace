@@ -1,19 +1,9 @@
 #include <iostream> 
 #include <cstring>
  
-/*  C++에서의 friend 클래스와 클래스끼리 친구(friend)관계를 형성할 수 있음
-    A와 B란 클래스가 존재한다고 하면 A와 B 클래스 둘다 private 멤버를 가지고 있음
-    
-    이미 알고 있듯 private 멤버는 외부에서 접근할 수 없음.
-    
-    A 클래스 내에서 B 클래스를 친구로 지정하면
-    B 클래스는 A 클래스의 private 멤버에 직접 접근이 가능해짐
-    그러나 A클래스에서는 B클래스의 private 멤버에 직접 접근이 불가능 함
-    
-    A 클래스도 가능하게 해주기 위해선 B클래스 내에서도 A 클래스를 대상으로 친구로 지정 해주어야 함
-    
-    친구로 지정할 때 friend 선언을 해주어야 하는데 선언은 friend와 함께 친구로 정할 클래스의 이름을 밝혀야 함 
-    */
+/*  상속은 간단히 설명하면 부모님이 돌아가시면 부모님 재산을 모두 물려받게 되는 의미가 동일
+    상속도 C++에서 존재함
+*/
 
 #define PI 3.141592
 // #define CU(x) ((x)*(x)*(x))
@@ -36,10 +26,30 @@ using github::win;
 
 using namespace std;
 
+class Human{
+private:
+    int age;
+    char name[10];
+    char hobby[20];
+public:
+    Human(int _age, char *_name, char *_hobby) : age(_age){}
+    /*  :age(_age)란 코드는 Human 클래스의 생성자로 _age 인자가 넘어오면
+        Human 클래스내의 멤버 변수인 age값을 _age로 초기화 시켜주는 역할임 */
+    void getup(){}
+    void sleep(){}
+    void eat(){}
+    void study(){}
+    void showInfo(){}
+};
+class Student : public Human {  
+private:
+    char school[30];
+public:
+    Student(int _age, char *_name, char *_hobby, char *_school) : Human(_age, _name, _hobby){}
+    void schoolInfo(){}
+};
+
 class Friend_B;
-/* B 클래스가 있다는걸 알림 */
-/*  class Friend_B; 라 선언되어 있는데 B라는 클래스가 있다는걸 알리기 위함
-    이 구문을 빼버린다면 컴파일러는 그런 클래스가 어딨냐며 불만을 토로함 */
 class Friend_A{
 private:
     int adata;
@@ -49,11 +59,8 @@ public:
     }
     void show(Friend_B b);
     friend class Friend_B;
-    /*  A클래스 내의 마지막에 B클래스를 대상으로 friend 선언
-        이 선언으로 인해 [B 클래스에서 A클래스로 직접 접근]이 가능함 */
 };
 
-/* 그 다음 B 클래스도 A클래스와 비슷한 구조를 띄고 있음 */
 class Friend_B{
 private:
     int bdata;
@@ -65,11 +72,8 @@ public:
         cout << "a.data : " << a.adata << endl;
     }
     friend class Friend_A;
-    /*  B 클래스 내의 마지막에서도 A 클래스를 대상으로한 friend 선언이 등장하며
-        이는 [A 클래스에서 B 클래스로 직접 접근]이 가능하단 얘기 */
 };
 
-/* Friend_A show */
 void Friend_A::show(Friend_B b){
     cout << "b.data : " << b.bdata << endl;
 }
@@ -301,23 +305,19 @@ void callByReferenceExample(){
 
 int main() {
 
+    Student stu(12, "u4bi", "coding", "c++ school");
+    stu.schoolInfo();
+    stu.getup();
+    stu.eat();
+    stu.study();
+    stu.sleep();
+        
+    
     Friend_A friend_a(10);
-    /* A라는 객체를 만듬과 동시에 생성자로 10이란 값을 넘겨줌 */
     Friend_B friend_b(20);
-    /* B라는 객체를 만듬과 동시에 생성자에게 20이란 값을 넘겨줌 */
     friend_a.show(friend_b);
     friend_b.show(friend_a);
-    /* 값 확인 */
-    
-    /*  이처럼 friend 선언은 언뜻보면 아무런 이상이 없을거 같지만 이 friend 선언은
-        객체지향의 핵심중 하나인 '정보은닉'을 깨버리는 행위가 됨
-        이는 매우 위험함
-        
-        friend 선언을 많이 사용하게되면 더 큰 문제를 부를 수 있음.
-        나중에 오버로딩 공부할 떄 friend 선언이 쓰이나 그 외ㅔ 특별한 경우가 아니고선
-        friend의 사용을 자제해야 한다고 함
-    */
-    
+
     callByReferenceExample();
     referenceExample();
     inlineExample();
