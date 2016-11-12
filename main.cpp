@@ -231,13 +231,11 @@ void inlineExample(){
 void referenceExample(){
     int aaa=50;
     int &bbb=aaa;
-    /*  a라는 변수를 선언과 동시에 50이란 값으로 초기화 됨.
-        그 아래의 aa란 녀석에 a가 대입 됨.
+    /*  aaa라는 변수를 선언과 동시에 50이란 값으로 초기화 됨.
+        그 아래의 bbb란 녀석에 aaa가 대입 됨.
     */
-    
-    cout << "aaa : " << aaa << endl;
-    cout << "bbb : " << bbb << endl;
-    /*  한가지 특이한 점은 aa의 이름 앞에 &(주소 반환) 연산자가 붙는다는 거임.
+
+    /*  한가지 특이한 점은 bbb의 이름 앞에 &(주소 반환) 연산자가 붙는다는 거임.
         이 주소 반환 연산자는 c언어에서 포인트를 공부할 때 본적 있음.
         
         변수 앞에 & 연산자가 붙으면 그 변수의 주소값을 반환 함.
@@ -247,7 +245,10 @@ void referenceExample(){
         한번 초기화되고나선 다른 변수를 참조할 수 없음.
     */
     
-    /* 두 변수의 주소값 확인 시 같음을 볼 수 있음. */
+    cout << "aaa : " << aaa << endl;
+    cout << "bbb : " << bbb << endl;
+    
+    /* 두 변수의 주소값 확인 시 같음을 볼 수 있음 */
     cout << "aaa path : " << &aaa << endl;
     cout << "bbb path : " << &bbb << endl;
 }
