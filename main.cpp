@@ -3,6 +3,14 @@
  
 /*  상속은 간단히 설명하면 부모님이 돌아가시면 부모님 재산을 모두 물려받게 되는 의미가 동일
     상속도 C++에서 존재함
+    
+    Human 클래스는 부모 클래스라고 말할 수 있고 그 클래스를 상속한 Student 클래스는 자식 클래스라고 말할 수 있음.
+    
+    상속의 대상인 Human같은 클래스의 경우는
+    부모 클래스, 상위 클래스, 기초 클래스(base class), 슈퍼 클래스(super class)라고 함.
+    
+    상속을 하는 클래스인 Student같은 클래스의 경우는
+    자식 클래스, 하위 클래스, 유도 클래스(derived class), 서브 클래스(sub class)라고 함
 */
 
 #define PI 3.141592
@@ -32,21 +40,47 @@ private:
     char name[10];
     char hobby[20];
 public:
-    Human(int _age, char *_name, char *_hobby) : age(_age){}
     /*  :age(_age)란 코드는 Human 클래스의 생성자로 _age 인자가 넘어오면
         Human 클래스내의 멤버 변수인 age값을 _age로 초기화 시켜주는 역할임 */
-    void getup(){}
-    void sleep(){}
-    void eat(){}
-    void study(){}
-    void showInfo(){}
+    Human(int _age, char *_name, char *_hobby) : age(_age){
+        strcpy(name, _name);
+        strcpy(hobby, _hobby);
+    }
+    void getup(){
+        cout << "기상!" << endl;
+    }
+    void sleep(){
+        cout << "취침!" << endl;
+    }
+    void eat(){
+        cout << "식사!" << endl;
+    }
+    void study(){
+        cout << "공부!" << endl;
+    }
+    void showInfo(){
+        cout << "이름 : " << name << endl;
+        cout << "나이 : " << age << endl;
+        cout << "취미 : " << hobby << endl;
+    }
 };
-class Student : public Human {  
+class Student : public Human {
+/* Student 클래스에서 Human 클래스를 public으로 상속함*/
 private:
     char school[30];
 public:
-    Student(int _age, char *_name, char *_hobby, char *_school) : Human(_age, _name, _hobby){}
-    void schoolInfo(){}
+    Student(int _age, char *_name, char *_hobby, char *_school) : Human(_age, _name, _hobby){
+        /*  Human 클래스와 마찬가지로 멤버 이니셜라이저가 사용
+        
+            Student클래스에서 Human 클래스 내의 매개변수가 있는 생성자를 호출하고
+            _age, _name, _hobby를 각각 넘겨 age, name, hobby의 값으로 초기화 함
+        */
+        strcpy(school, _school);
+    }
+    void schoolInfo(){
+        showInfo();
+        cout << "학교 : " << school << endl;
+    }
 };
 
 class Friend_B;
@@ -306,12 +340,19 @@ void callByReferenceExample(){
 int main() {
 
     Student stu(12, "u4bi", "coding", "c++ school");
+    /*  stu라는 객체를 만들고 그 안의 값을 생성자로 넘겨주어 초기화
+        그 후 함수들을 호출
+    */
     stu.schoolInfo();
     stu.getup();
     stu.eat();
     stu.study();
     stu.sleep();
+    /*  Student 클래스에서 Human 클래스내의 함수까지 호출하고 있음
+        당연히 물려받았으니 사용 가능함
         
+        다만, private의 멤버는 상속이 불가능
+    */
     
     Friend_A friend_a(10);
     Friend_B friend_b(20);
