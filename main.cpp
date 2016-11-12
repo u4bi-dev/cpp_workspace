@@ -1,9 +1,16 @@
 #include <iostream> 
 #include <cstring>
-
-/*  bool 논리 자료형 말 그대로 참(true)과 거짓(false)으로만 구성되어 있는 자료형
-    true와 false는 어떤 값을 나타낼까
+ 
+/*  인라인(Inline) 은 define C에서 매크르와 흡사함
+    일단 define에 대해 보겠음
 */
+
+#define PI 3.141592
+#define CU(x) ((x)*(x)*(x))
+/*  define 매크로 변수, 매크로 함수 정의 됨
+    매크로 함수는 복잡한 함수 형태를 정의하는데 한계가 있음
+    장점이라고 하면 일반 함수에 비해 실행속도가 빠름
+    변수같은 경우 자료형에 영향을 받지 않음 */
 
 namespace A { void Add() { printf("A의 Add() 호출 \n");}}
 namespace B { void Add() { printf("B의 Add() 호출 \n");}}
@@ -223,12 +230,18 @@ void boolExample(){
     */
 }
 
+void inlineExample(){
+    cout << PI << endl;
+    cout << CU(7) << endl;
+}
+
 int main() {
         
     boolNum();
     boolLen();
     boolExample();
-    
+    inlineExample();
+
     deep dp1("deep copy");
     deep dp2 = dp1;
     dp1.show();
