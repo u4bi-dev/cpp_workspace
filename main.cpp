@@ -1,11 +1,9 @@
 #include <iostream> 
 #include <cstring>
  
-/*  참조자(REference 레퍼런스)는 간단히 말하면 변수에 또 하나의 별명을 붙혀주는거임
-    할당된 어느 메모리 공간의 이름에, 둘 이상의 이름을 부여하는 것임
-    이름이 존재하지 않을 경우에는 역시 참조할 수 없음
-    
-    간단히 a란 변수에 aa라는 별명을 붙여주어 보도록 하는 예제를 볼거임
+/*  참조자를 사용해서 Call by reference(참조에 의한 호출)이 가능함
+
+    a와 b의 값을 서로 바꾸는 swap함수를 참조자를 이용해 작성해보기
 */
 
 #define PI 3.141592
@@ -231,30 +229,47 @@ void inlineExample(){
 void referenceExample(){
     int aaa=50;
     int &bbb=aaa;
-    /*  aaa라는 변수를 선언과 동시에 50이란 값으로 초기화 됨.
-        그 아래의 bbb란 녀석에 aaa가 대입 됨.
-    */
-
-    /*  한가지 특이한 점은 bbb의 이름 앞에 &(주소 반환) 연산자가 붙는다는 거임.
-        이 주소 반환 연산자는 c언어에서 포인트를 공부할 때 본적 있음.
-        
-        변수 앞에 & 연산자가 붙으면 그 변수의 주소값을 반환 함.
-        위와 같이 변수 선언 앞에 & 연산자가 쓰이면 이는 참조자 선언이 됨
-        
-        한가지 주의할 점은 참조자는 선언시에 반드시 초기화하여야 한다고 함.
-        한번 초기화되고나선 다른 변수를 참조할 수 없음.
-    */
     
     cout << "aaa : " << aaa << endl;
     cout << "bbb : " << bbb << endl;
     
-    /* 두 변수의 주소값 확인 시 같음을 볼 수 있음 */
     cout << "aaa path : " << &aaa << endl;
     cout << "bbb path : " << &bbb << endl;
 }
 
-int main() {
+void swap(int &ref_a, int &ref_b){
+    /* 매개변수에 참조자를 위치함 */
+    int temp = ref_a;
     
+    ref_a = ref_b;
+    ref_b = temp;
+    /* 우선 넘겨주기 */
+}
+void callByReferenceExample(){
+    
+    int a = 50, b = 40;
+    cout << "swap 하기전 a : " << a << " b : " << b << endl;
+    /*  당연히 기존의 a와 b의 값을 출력 */
+    
+    swap(a, b);
+    /*  swap 함수를 호출 그러면 a와 b가 swap 함수로 넘어감
+    
+        이렇게 넘어오면 참조자로 설정된 ref_a와 ref_b가 초기화
+        ref_a는 넘어온 a를 가르키고 ref_b는 넘어온 b를 가르킴
+        
+        함수 내에서
+        temp 변수에 ref_a(a)값을 넣어두고
+        ref_a 변수에 ref_b(b)값을 넣어
+        
+        두 값이 서로 바뀜
+    */
+    cout << "swap 한 후 a : " << a << " b : " << b << endl;
+    /*  참조자(레퍼런스)에 의해 바뀐 a와 b를 확인 */
+}
+
+int main() {
+
+    callByReferenceExample();
     referenceExample();
     inlineExample();
     
