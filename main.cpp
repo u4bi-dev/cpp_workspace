@@ -1,12 +1,15 @@
 #include <iostream> 
 #include <cstring>
  
-/*  일반 함수의 형태에서 inline이라는 키워드를 붙여주어 매크로 함수처럼 쓸 수 있음.
+/*  참조자(REference 레퍼런스)는 간단히 말하면 변수에 또 하나의 별명을 붙혀주는거임
+    할당된 어느 메모리 공간의 이름에, 둘 이상의 이름을 부여하는 것임
+    이름이 존재하지 않을 경우에는 역시 참조할 수 없음
+    
+    간단히 a란 변수에 aa라는 별명을 붙여주어 보도록 하는 예제를 볼거임
 */
 
 #define PI 3.141592
 // #define CU(x) ((x)*(x)*(x))
-/*  define 함수를 주석처리함 */
 
 inline int CU(int x){
     return x*x*x;
@@ -201,18 +204,11 @@ void NewDeleteExample(){
 void boolNum(){
     cout << true << endl;
     cout << false << endl;
-    /*
-        true는 값이 1 false는 값이 0이라고 볼 수 있지만
-        그게 아니라 bool형은 참과 거짓으로만 구성되어 있다고 함.
-    */
 }
 
 void boolLen(){
     cout << "sizeof true: " << sizeof true << endl;
     cout << "sizeof false: " << sizeof false << endl;
-    /*  true가 차지하는 바이트 1바이트 false 역시도 1바이트
-        정리하자면 참과 거짓을 나타내며 1바이트를 차지하는 자료형이라고 볼 수 있음
-   */
 }
 
 void boolExample(){
@@ -225,23 +221,40 @@ void boolExample(){
     else isMax = false;
     
     cout << "isMax : " << isMax << endl;
-    /*  a와 b를 입력받아 대소여부를 가려내는 간단한 예제
-        a가 더크면 참1 작으면 거짓0
-    */
 }
 
 void inlineExample(){
     cout << PI << endl;
     cout << CU(7.4) << endl;
 }
-/*  만약에 7이 아닌 7.4를 넘겨줘도 이 경우에도 343이 출력
-    하지만 define 전처리문 같은 경우 405.224로 출력 됨
+
+void referenceExample(){
+    int aaa=50;
+    int &bbb=aaa;
+    /*  a라는 변수를 선언과 동시에 50이란 값으로 초기화 됨.
+        그 아래의 aa란 녀석에 a가 대입 됨.
+    */
     
-    define은 자료형에 의존적이지 않지만 CU 인라인 함수는 매개변수로
-    int형이 들어올 수 있으므로 소숫점 아래값들은 모두 버려짐 (인라인 함수의 단점으로 볼 수 있음) */
+    cout << "aaa : " << aaa << endl;
+    cout << "bbb : " << bbb << endl;
+    /*  한가지 특이한 점은 aa의 이름 앞에 &(주소 반환) 연산자가 붙는다는 거임.
+        이 주소 반환 연산자는 c언어에서 포인트를 공부할 때 본적 있음.
+        
+        변수 앞에 & 연산자가 붙으면 그 변수의 주소값을 반환 함.
+        위와 같이 변수 선언 앞에 & 연산자가 쓰이면 이는 참조자 선언이 됨
+        
+        한가지 주의할 점은 참조자는 선언시에 반드시 초기화하여야 한다고 함.
+        한번 초기화되고나선 다른 변수를 참조할 수 없음.
+    */
+    
+    /* 두 변수의 주소값 확인 시 같음을 볼 수 있음. */
+    cout << "aaa path : " << &aaa << endl;
+    cout << "bbb path : " << &bbb << endl;
+}
 
 int main() {
     
+    referenceExample();
     inlineExample();
     
     boolNum();
