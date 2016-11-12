@@ -1,16 +1,16 @@
 #include <iostream> 
 #include <cstring>
  
-/*  인라인(Inline) 은 define C에서 매크르와 흡사함
-    일단 define에 대해 보겠음
+/*  일반 함수의 형태에서 inline이라는 키워드를 붙여주어 매크로 함수처럼 쓸 수 있음.
 */
 
 #define PI 3.141592
-#define CU(x) ((x)*(x)*(x))
-/*  define 매크로 변수, 매크로 함수 정의 됨
-    매크로 함수는 복잡한 함수 형태를 정의하는데 한계가 있음
-    장점이라고 하면 일반 함수에 비해 실행속도가 빠름
-    변수같은 경우 자료형에 영향을 받지 않음 */
+// #define CU(x) ((x)*(x)*(x))
+/*  define 함수를 주석처리함 */
+
+inline int CU(int x){
+    return x*x*x;
+}
 
 namespace A { void Add() { printf("A의 Add() 호출 \n");}}
 namespace B { void Add() { printf("B의 Add() 호출 \n");}}
@@ -232,15 +232,21 @@ void boolExample(){
 
 void inlineExample(){
     cout << PI << endl;
-    cout << CU(7) << endl;
+    cout << CU(7.4) << endl;
 }
+/*  만약에 7이 아닌 7.4를 넘겨줘도 이 경우에도 343이 출력
+    하지만 define 전처리문 같은 경우 405.224로 출력 됨
+    
+    define은 자료형에 의존적이지 않지만 CU 인라인 함수는 매개변수로
+    int형이 들어올 수 있으므로 소숫점 아래값들은 모두 버려짐 (인라인 함수의 단점으로 볼 수 있음) */
 
 int main() {
-        
+    
+    inlineExample();
+    
     boolNum();
     boolLen();
     boolExample();
-    inlineExample();
 
     deep dp1("deep copy");
     deep dp2 = dp1;
