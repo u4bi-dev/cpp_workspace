@@ -1,10 +1,10 @@
 #include <iostream> 
 #include <cstring>
  
-/*  멤버 이니셜라이저는 방금처럼 부모 클래스의 멤버 변수를 초기화하기 위해서
-    생성자 함수를 호출한다던가 클래스내의 변수를 초기화한다던가 const 변수를 초기화 할 때도 사용된다고 함
-    
-    멤버 이니셜라이저는 생성자의 몸체 부분보다 먼저 실행된다는 특징이 있음
+/*  private, protected, public 상속에 대해 알아보기
+    private는 외부에서 접근이 불가능함
+    protected는 외부에서 접근이 불가능하나 파생 클래스에서는 접근이 가능함
+    public는 어디서나 접근이 가능함
 */
 
 #define PI 3.141592
@@ -28,6 +28,43 @@ using github::win;
 
 using namespace std;
 
+class Parent{
+private : int num_a;
+protected : int num_b;
+public : int num_c;
+};
+/* private 상속 */
+class Base_Private : private Parent{};
+/*
+a : error
+b : error
+c : error
+
+    private보다 접근 범위가 넓은(public, protected)멤버들은 모조리 private로 바꾸어서 넘어오는거죠.
+    모두 private 제한자로 바꾸어 상속받게 되어지는데 따라서 error가 나게 됨
+*/ 
+
+/* protected 상속 */
+class Base_Protected : protected Parent{};
+/*
+a : error
+b : error
+c : error
+
+    protected 제한자 보다 접근 범위가 넓은 멤버는 모두 protected 제한자로 바꾸어 상속함.
+*/ 
+
+/* public 상속 */
+class Base_Public : public Parent{};
+/*
+a : error
+b : error
+c : ok
+
+   public 제한자 보다 접근 범위가 넓은 멤버는 모두 public 제한자로 바뀌어 상속함
+   public 보다 접근 범위가 넓은것이 없으므로 무엇하나 바뀌지 않고 그대로 상속됨
+*/ 
+ 
 class memInit{
 private:
     int num_a;
