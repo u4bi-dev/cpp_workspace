@@ -1,8 +1,7 @@
 #include <iostream> 
 #include <cstring>
  
-/*  다중 상속(Multiple Inheritance)란 둘 이상의 클래스를 동시에 상속하는걸 말함
-*/
+/*  연산자 오버로딩(Operator Overloading) */
 
 #define PI 3.141592
 // #define CU(x) ((x)*(x)*(x))
@@ -25,22 +24,32 @@ using github::win;
 
 using namespace std;
 
-/* ParentOne, ParentTwo 클래스 정의 */
+/* NumBox란 클래스 정의*/
+class NumBox{
+private:
+    int num_a, num_b;
+    /* 멤버변수 num_a와 num_b */
+public:
+    NumBox(int num_a, int num_b) : num_a(num_a), num_b(num_b){}
+    /*그리고 생성자와 값을 출력해주는 show()함수 */
+    void show(){
+        cout << "num_a : " << num_a << " num_b : " << num_b << endl;
+    }
+    NumBox operator+(NumBox &ref){
+        return NumBox(num_a+ref.num_a, num_b+ref.num_b);
+    }
+    /*  operator+라는 특이함 함수가 정의
+        안에 보면 전달 받은 객체와 자신의 멤버 변수를 서로 더해 NumBox 임시 객체를 만듬
+        이 임시 객체가 반환(return)됨 */
+};
+
 class ParentOne{ public : void funcOne(){ cout << "funcOne() 호출 " << endl; } };
 class ParentTwo{ public : void funcTwo(){ cout << "funcTwo() 호출 " << endl; } };
-/* 콤마(,)를 이용해 Child 클래스가 두 클래스 모두 상속 */
 class multipleInheritance_Child : public ParentOne, public ParentTwo{
 public :
     void func() {
         funcOne();
         funcTwo();
-        /*  두 클래스 모두 상속 받았기에 부모 클래스의 함수를 호출할 수 있음
-            되도록이면 다중상속을 사용안하는게 좋다고 함.
-            
-            다중상속에 완전히 이해하고 꼭 필요한 경우라면 사용해도 좋다고 하지만 문제점이 여럿 있다고 함.
-            상속 받은 두 클래스에서 같은 이름의 함수가 있다면 어느 함수를 호출할지 모호하다고 함
-            
-            다만 이 경우 범위 지정 연산자(::)로 해결 가능하긴 함*/
     }
 };
 
@@ -499,7 +508,28 @@ void multipleInheritanceExample(){
     child.func();
 }
 
+void operatorOverloadingExample(){
+    NumBox nb_a(10, 20);
+    NumBox nb_b(5, 2);
+    /* nb_a, nb_b 객체 생성과 동시 값 초기화 */
+    NumBox result = nb_a + nb_b;
+    /* 선언된 result 객체에 nb_a와 nb_b를 더한 값을 result로 대입 */
+    NumBox result2 = nb_a.operator+(nb_b);
+    /* nb_a 객체의 operator+ 함수로 nb_b의 객체를 인자로 넘겨줌
+    
+    두개다 동일한 결과임
+    operator+ 함수를 호출하는 방식을 통하던 +만 쓰는 결과든 동일함 
+    즉 + 연산자를 사용해 NumBox 객체를 대상으로 연산을 진행하면 알아서 그 객체의 operator+ 함수가 호출된다는거임     */
+    
+    nb_a.show();
+    nb_b.show();
+    result.show();
+    result2.show();
+}
+
 int main() {
+    
+    operatorOverloadingExample();
     
     multipleInheritanceExample();
     
