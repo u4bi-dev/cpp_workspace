@@ -1,16 +1,9 @@
 #include <iostream> 
 #include <cstring>
  
-/*  오버라이딩이란?
-
-    오버로딩이 인자의 자료형이나 수가 다른 함수를 같은 이름으로 여러번 중복 정의하는 것이라면
-    오버라이딩은 이미 있는 함수를 무시해버리고 새롭게 함수를 재정의하는 것이라고 말할 수 있음.
+/*  가상 함수(virtual Function)를 먼저 살펴보기전 가상 함수가 왜 필요한지 언제 쓰이는지 한번 살펴보도록 하자.
     
-    더 자세히 말하자면 오버라이딩(overriding, 재정의)는 부모 클래스와 자식 클래스의 상속 관계에서
-    부모 클래스에 이미 정의된 함수를 같은 이름으로 자식 클래스에서 재정의 하는 것을 의미함.
-    
-    이때 부모의 멤버 함수의 원형이 완전 같아야 한다고 함. 그리고 오버라이딩 시 부모 클래스의 함수가 모두 가려진다 함
-*/
+    아래의 예제는 포인터 변수와 관련된 예제 */
 
 #define PI 3.141592
 // #define CU(x) ((x)*(x)*(x))
@@ -33,19 +26,26 @@ using github::win;
 
 using namespace std;
 
+class virtual_Parent{
+/* Parent 클래스 정의 내부에는 func() 함수 정의*/
+public: void func(){ cout << " 부모 클래스 func() 호출 " << endl; }
+};
+
+class virtual_Child : public virtual_Parent{
+/*  Child 클래스 정의 이 클래스는 Parent 클래스를 상속 */
+public: void func(){ cout << " 자식 클래스 func() 호출 " << endl; }
+/* 내부를 살펴보니 Parent 클래스에서 정의했던 func()를 Child 클래스에서 오버라이딩(재정의) 함 */
+};
+
 class overriding_A{
-/* A라는 클래스가 정의 */
 public: void over(){ cout << " A 클래스의 over 함수 호출 " << endl; }
-/* 내부를 보면 over()라는 함수가 존재 */
 };
 class overriding_B : public overriding_A {
-/* 그리고 B라는 클래스가 정의 이 B 클래스는 A라는 클래스를 상속 */
-public: void over(){
-    overriding_A::over();
-    /* 범위지정 연산자를 통해 부모 클래스의 over()함수를 호출 */
-    cout << " B 클래스의 over 함수 호출 " << endl;
-}
-/* B 클래스 내부에도 over()라는 함수가 존재함 */
+public:
+    void over(){
+        overriding_A::over();
+        cout << " B 클래스의 over 함수 호출 " << endl;
+    }
 };
 
 class thisPointer{
@@ -460,14 +460,30 @@ void objectPointerArray(){
 
 int main() {
     
+    virtual_Parent vP, *pP;
+    /* 객체 vP와 Parent 객체의 주소값을 담을 수 있는 포인터 변수 pP가 선언*/
+    virtual_Child vC;
+    /* 객체 vC 생성*/
+    
+    pP = &vP;
+    /* pP에 vP의 주소값을 대입함 */
+    pP ->func();
+    /* pP가 가르키고 있는 객체의 func 함수를 호출 여기까지 부모 클래스의 func()함수가 호출된다는걸 짐작가능 */
+    
+    pP = &vC;
+    /* vC의 주소값을 Parent 포인터 변수인 pP에 대입 */
+    pP -> func();
+    /*  그러고 나서 pP가 가리키고 있는 자식 객체의 func()함수를 호출하는듯 보였으나
+        막상 결과는 부모 클래스의 func()함수가 호출 됨
+        
+        이런 이유는? C++ 컴파일러가 실제로 가리키는 객체의 자료형을 기준으로 하는게 아니라
+        포인터 변수 자료형을 기준으로 판단하기 때문이라고 함.
+        
+        그렇기 때문에 버츄얼(virtual) 키워드를 함수의 선언문에 붙여주면 쉽게 해결할 수 있다고 함.
+    */
+    
     overriding_B ob;
     ob.over();
-    /*  ob라는 객체를 만들고 over()함수를 호출하면
-        부모 클래스의 over()함수는 무시되고 자식 클래스의 over()함수가 호출됨
-        
-        그러면 자식 클래스의 over()함수 때문에 가려진 부모 클래스의 over()함수는 어떻게 호출할까?
-        네임스페이스(namaspace)에서 범위지정 연사자(::)를 이용해 부모 클래스의 함수를 호출할 수 있음
-    */
     
     ThisPointExample tp(10, 20);
     tp.getInfo();
