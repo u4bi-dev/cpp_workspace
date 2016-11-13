@@ -27,6 +27,21 @@ using github::win;
 
 using namespace std;
 
+class ItemEX{
+private:
+    int id;
+    char name[10];
+    int price;
+public:
+    ItemEX(int _id, char *_name, int _price) : id(_id), price(_price) { strcpy(name, _name); }
+    /* 멤버 이니셜라이저를 통한 초기화로 바뀌고 setInfo()함수를 없앰 */
+    void getInfo(){
+        cout << "번호" << id << endl;
+        cout << "물품" << name << endl;
+        cout << "가격" << price << endl;
+    }
+};
+
 class Item{
 private:
     int id;
@@ -376,6 +391,15 @@ void objectArrayExample(){
 }
 /* 위의 예제는  setInfo를 이용한 초기화 방식 */
 
+void objectArrayExample_memberInitializer(){
+    ItemEX itemEx[2] = {ItemEX(1, "apple", 500),ItemEX(1, "box", 1000)};
+    /* 객체 배열의 초기화 방법 setInfo() 형식도 동일함 */
+    for(int i=0; i<2; i++){
+        itemEx[i].getInfo();
+    }
+}
+/* 이는 생성자로 인자를 넘겨 멤버 이니셜라이저로 멤버 변수를 초기화하는 방식 */
+    
 int main() {
 
     objectArrayExample();
