@@ -1,9 +1,10 @@
 #include <iostream> 
 #include <cstring>
  
-/*  가상 함수(virtual Function)를 먼저 살펴보기전 가상 함수가 왜 필요한지 언제 쓰이는지 한번 살펴보도록 하자.
-    
-    아래의 예제는 포인터 변수와 관련된 예제 */
+/*  순수 가상 함수(pure virtual function) ?
+
+    가상함수가 실제로 가리키는 객체에 따라 실행 코드가 달라지고 재정의 할 수 있는 함수인 반면
+    순수 가상 함수는 함수 선언만 있고 정의는 없는 것으로 자식 클래스에서 반드시 재정의해야한다고 함 */
 
 #define PI 3.141592
 // #define CU(x) ((x)*(x)*(x))
@@ -26,22 +27,21 @@ using github::win;
 
 using namespace std;
 
+/* 가상 함수에서 정의를 제외하고 뒷 부분에 =0; 을 덧붙히면 됨 */
+class pure_virtual_Parent{
+public : virtual void func() = 0;
+};
+class pure_virtual_Child : public pure_virtual_Parent {
+public : virtual void func(){ cout << "pure-virtual : 자식 클래스의 func 함수 호출 " << endl; }
+};
+/* 위와 같이 순수 가상 함수를 포함하는 클래스를 추상 클래스(abstract class)라고 말함 */
+
 class virtual_Parent{
-/* Parent 클래스 정의 내부에는 func() 함수 정의*/
 public: virtual void func(){ cout << " 부모 클래스 func() 호출 " << endl; }
-/*  버츄얼(virtual) 키워드를 함수의 선언문에 붙힘
-    
-    부모 클래스에서 멤버 함수 선언문 앞에 virtual 키워드가 존재하면
-    자식 클래스에서 오버라이딩한 함수도 저절로 가상 함수로 정의됨
-    
-    그러나 소스 코드의 이해를 돕기 위해 자식 클래스에도 virtual를 명시해줘야 하는 것이 관례라고 함*/
 };
 
-/* 그래서 아래도 마찬가지로 virtual을 붙혀줌 */
 class virtual_Child : public virtual_Parent{
-/*  Child 클래스 정의 이 클래스는 Parent 클래스를 상속 */
     public: virtual void func(){ cout << " 자식 클래스 func() 호출 " << endl; }
-/* 내부를 살펴보니 Parent 클래스에서 정의했던 func()를 Child 클래스에서 오버라이딩(재정의) 함 */
 };
 
 class overriding_A{
@@ -465,29 +465,18 @@ void objectPointerArray(){
     delete itemEx[1];
 }
 
-int main() {
-    
+void virtualFunctionExample(){
     virtual_Parent vP, *pP;
-    /* 객체 vP와 Parent 객체의 주소값을 담을 수 있는 포인터 변수 pP가 선언*/
     virtual_Child vC;
-    /* 객체 vC 생성*/
-    
     pP = &vP;
-    /* pP에 vP의 주소값을 대입함 */
     pP ->func();
-    /* pP가 가르키고 있는 객체의 func 함수를 호출 여기까지 부모 클래스의 func()함수가 호출된다는걸 짐작가능 */
-    
     pP = &vC;
-    /* vC의 주소값을 Parent 포인터 변수인 pP에 대입 */
     pP -> func();
-    /*  그러고 나서 pP가 가리키고 있는 자식 객체의 func()함수를 호출하는듯 보였으나
-        막상 결과는 부모 클래스의 func()함수가 호출 됨
+}
+
+int main() {
         
-        이런 이유는? C++ 컴파일러가 실제로 가리키는 객체의 자료형을 기준으로 하는게 아니라
-        포인터 변수 자료형을 기준으로 판단하기 때문이라고 함.
-        
-        그렇기 때문에 버츄얼(virtual) 키워드를 함수의 선언문에 붙여주면 쉽게 해결할 수 있다고 함.
-    */
+    virtualFunctionExample();
     
     overriding_B ob;
     ob.over();
