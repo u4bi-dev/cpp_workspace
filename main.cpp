@@ -1,9 +1,15 @@
 #include <iostream> 
 #include <cstring>
  
-/*  this 포인터 간단한 예제로 확인해보자.
+/*  오버라이딩이란?
 
-    생성자의 매개변수로 클래스내의 멤버 변수를 초기화하는 예제
+    오버로딩이 인자의 자료형이나 수가 다른 함수를 같은 이름으로 여러번 중복 정의하는 것이라면
+    오버라이딩은 이미 있는 함수를 무시해버리고 새롭게 함수를 재정의하는 것이라고 말할 수 있음.
+    
+    더 자세히 말하자면 오버라이딩(overriding, 재정의)는 부모 클래스와 자식 클래스의 상속 관계에서
+    부모 클래스에 이미 정의된 함수를 같은 이름으로 자식 클래스에서 재정의 하는 것을 의미함.
+    
+    이때 부모의 멤버 함수의 원형이 완전 같아야 한다고 함. 그리고 오버라이딩 시 부모 클래스의 함수가 모두 가려진다 함
 */
 
 #define PI 3.141592
@@ -27,19 +33,23 @@ using github::win;
 
 using namespace std;
 
+class overriding_A{
+/* A라는 클래스가 정의 */
+public: void over(){ cout << " A 클래스의 over 함수 호출 " << endl; }
+/* 내부를 보면 over()라는 함수가 존재 */
+};
+class overriding_B : public overriding_A {
+/* 그리고 B라는 클래스가 정의 이 B 클래스는 A라는 클래스를 상속 */
+public: void over(){ cout << " B 클래스의 over 함수 호출 " << endl; }
+/* B 클래스 내부에도 over()라는 함수가 존재함 */
+};
+
 class thisPointer{
 private:
     int age;
 public:
     thisPointer(int age){
-    /* thisPointer 생성자의 매개변수를 보면 age란 매개변수가 있음*/
-        age = age; // ?
-        /*  멤버 변수에 매개 변수의 값이 저장되는 것같으나
-            사실은 매개변수에 매개 변수의 값이 저장 됨
-            
-            이 상황을 해결하려면 둘 중 하나의 변수 이름을 바꿔야하는 불편함이 있음
-            
-            이를 해결하는 것이 this 포인터 (자기 참조 포인터) */
+        age = age;
     }
 };
 
@@ -51,15 +61,6 @@ public:
     ThisPointExample(int num_a, int num_b){
         this->num_a = num_a;
         this->num_b = num_b;
-        /* this 포인터를 이용해 객체 내의 멤버 변수에 접근
-           예로 this-> num_a 는 ThisPointExample 객체 내의 num_a를 가르킴
-           
-           주의 할 점은 멤버 이니셜라이저에서는 this 포인터를 사용할 수 없다고 함.
-           
-           그렇지만 this포인터 없이도 멤버변수로 인식하므로 아래와 같은 형태로 구성 가능하다고함 
-           
-           ThisPointExample(int num_a, int num_b) : num_a(num_a), num_b(num_b)
-        */
     }
     void getInfo(){
         cout << "num a : " << num_a << endl;
@@ -454,7 +455,13 @@ void objectPointerArray(){
 }
 
 int main() {
-
+    
+    overriding_B ob;
+    ob.over();
+    /*  ob라는 객체를 만들고 over()함수를 호출하면
+        부모 클래스의 over()함수는 무시되고 자식 클래스의 over()함수가 호출됨
+    */
+    
     ThisPointExample tp(10, 20);
     tp.getInfo();
     
