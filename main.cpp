@@ -1,7 +1,9 @@
 #include <iostream> 
 #include <cstring>
  
-/*  객체 포인트 배열(object pointer array) 즉, 객체의 주소값들의 모임이라고 말할 수 있음
+/*  this 포인터 간단한 예제로 확인해보자.
+
+    생성자의 매개변수로 클래스내의 멤버 변수를 초기화하는 예제
 */
 
 #define PI 3.141592
@@ -24,6 +26,22 @@ using namespace u4bi;
 using github::win;
 
 using namespace std;
+
+class thisPointer{
+private:
+    int age;
+public:
+    thisPointer(int age){
+    /* thisPointer 생성자의 매개변수를 보면 age란 매개변수가 있음*/
+        age = age; // ?
+        /*  멤버 변수에 매개 변수의 값이 저장되는 것같으나
+            사실은 매개변수에 매개 변수의 값이 저장 됨
+            
+            이 상황을 해결하려면 둘 중 하나의 변수 이름을 바꿔야하는 불편함이 있음
+            
+            이를 해결하는 것이 this 포인터 (자기 참조 포인터) */
+    }
+};
 
 class ItemEX{
 private:
@@ -396,21 +414,19 @@ void objectArrayExample_memberInitializer(){
 
 void objectPointerArray(){
     ItemEX * itemEx[2];
-    /*ItemEx 클래스는 달라진게 없으나 포인트 배열이 선언 */
+    
     int id, price;
     char name[10];
 
     for(int i=0; i<2; i++){
         cin >> id >> name >> price;
         itemEx[i] = new ItemEX(id, name, price);
-        /* 이후 new 연산자를 통해 객체를 만듬 객체의 주소값이 배열에 들어간 셈임 */
     }
     for(int i=0; i<2; i++){
         itemEx[i]->getInfo();
 	}
     delete itemEx[0];
     delete itemEx[1];
-    /* 그 후 delete 연산을 통해 해제줘야함*/
 }
 
 int main() {
