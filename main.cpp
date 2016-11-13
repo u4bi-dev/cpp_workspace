@@ -30,9 +30,16 @@ using namespace std;
 /* 가상 함수에서 정의를 제외하고 뒷 부분에 =0; 을 덧붙히면 됨 */
 class pure_virtual_Parent{
 public : virtual void func() = 0;
+/* 순수 가상함수가 선언 : 순수 가상함수는 함수의 몸체 부분이 정의되어 있지 않음 */
 };
+
+/* Child 클래스 정의하고 이 클래스에 Parent클래스를 상속 */
 class pure_virtual_Child : public pure_virtual_Parent {
 public : virtual void func(){ cout << "pure-virtual : 자식 클래스의 func 함수 호출 " << endl; }
+/*  부모 클래스 내의 순수 가상함수는 자식 클래스내에서 반드시 재정의되어야 한다는 특징이 있음
+    만약 주석처리하게 되면 추상클래스 형식의 개채를 사용할 수 없다는 오류가 뜸
+    
+    순수 가상 함수는 반드시 자식 클래스에서 오버라이딩(재정의)되어야 함*/
 };
 /* 위와 같이 순수 가상 함수를 포함하는 클래스를 추상 클래스(abstract class)라고 말함 */
 
@@ -474,8 +481,30 @@ void virtualFunctionExample(){
     pP -> func();
 }
 
-int main() {
+void pureVirtualFunctionExample(){
+    
+    //pure_virtual_Parent P;
+    /*  만약 위의 주석을 풀게되면 오류가 발생하는데 이는 추상클래스는 객체를 만들 수 없다는 말임
+        몸체도 정의되어 있지 않은 추상 클래스의 객체를 만든다는 것은 생각해보면 의미가 없음
+    */
+    pure_virtual_Parent * P;
+    /* 하지만 추상 클래스의 포인터는 선언할 수 있음 */
+    P = new pure_virtual_Child;
+    /* 이처럼 자식 클래스의 객체를 만들어 그곳을 가리키고 */
+    P -> func();
+    /* 부모 클래스의 포인터로 func()함수에 접근함 */
+    
+    /*  추상 클래스는 순수 가상 함수 선언을 하나라도 포함하면 그 클래스는 추상 클래스가 된다고 함
         
+        또한 추상 클래스를 상속하고 그 상속받은 클래스에서 순수 가상 함수를 정의하지 않으면
+        그 클래스도 추상 클래스가 된다함.
+    */
+}
+
+int main() {
+
+    pureVirtualFunctionExample();
+    
     virtualFunctionExample();
     
     overriding_B ob;
