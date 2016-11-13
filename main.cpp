@@ -28,12 +28,19 @@ using namespace std;
 
 class virtual_Parent{
 /* Parent 클래스 정의 내부에는 func() 함수 정의*/
-public: void func(){ cout << " 부모 클래스 func() 호출 " << endl; }
+public: virtual void func(){ cout << " 부모 클래스 func() 호출 " << endl; }
+/*  버츄얼(virtual) 키워드를 함수의 선언문에 붙힘
+    
+    부모 클래스에서 멤버 함수 선언문 앞에 virtual 키워드가 존재하면
+    자식 클래스에서 오버라이딩한 함수도 저절로 가상 함수로 정의됨
+    
+    그러나 소스 코드의 이해를 돕기 위해 자식 클래스에도 virtual를 명시해줘야 하는 것이 관례라고 함*/
 };
 
+/* 그래서 아래도 마찬가지로 virtual을 붙혀줌 */
 class virtual_Child : public virtual_Parent{
 /*  Child 클래스 정의 이 클래스는 Parent 클래스를 상속 */
-public: void func(){ cout << " 자식 클래스 func() 호출 " << endl; }
+    public: virtual void func(){ cout << " 자식 클래스 func() 호출 " << endl; }
 /* 내부를 살펴보니 Parent 클래스에서 정의했던 func()를 Child 클래스에서 오버라이딩(재정의) 함 */
 };
 
