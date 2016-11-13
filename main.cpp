@@ -43,6 +43,30 @@ public:
     }
 };
 
+class ThisPointExample{
+private:
+    int num_a;
+    int num_b;
+public:
+    ThisPointExample(int num_a, int num_b){
+        this->num_a = num_a;
+        this->num_b = num_b;
+        /* this 포인터를 이용해 객체 내의 멤버 변수에 접근
+           예로 this-> num_a 는 ThisPointExample 객체 내의 num_a를 가르킴
+           
+           주의 할 점은 멤버 이니셜라이저에서는 this 포인터를 사용할 수 없다고 함.
+           
+           그렇지만 this포인터 없이도 멤버변수로 인식하므로 아래와 같은 형태로 구성 가능하다고함 
+           
+           ThisPointExample(int num_a, int num_b) : num_a(num_a), num_b(num_b)
+        */
+    }
+    void getInfo(){
+        cout << "num a : " << num_a << endl;
+        cout << "num_b : " << num_b << endl;
+    }
+};
+
 class ItemEX{
 private:
     int id;
@@ -431,6 +455,9 @@ void objectPointerArray(){
 
 int main() {
 
+    ThisPointExample tp(10, 20);
+    tp.getInfo();
+    
     objectPointerArray();
     
     objectArrayExample();
