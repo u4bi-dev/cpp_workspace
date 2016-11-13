@@ -40,7 +40,11 @@ public: void over(){ cout << " A 클래스의 over 함수 호출 " << endl; }
 };
 class overriding_B : public overriding_A {
 /* 그리고 B라는 클래스가 정의 이 B 클래스는 A라는 클래스를 상속 */
-public: void over(){ cout << " B 클래스의 over 함수 호출 " << endl; }
+public: void over(){
+    overriding_A::over();
+    /* 범위지정 연산자를 통해 부모 클래스의 over()함수를 호출 */
+    cout << " B 클래스의 over 함수 호출 " << endl;
+}
 /* B 클래스 내부에도 over()라는 함수가 존재함 */
 };
 
@@ -460,6 +464,9 @@ int main() {
     ob.over();
     /*  ob라는 객체를 만들고 over()함수를 호출하면
         부모 클래스의 over()함수는 무시되고 자식 클래스의 over()함수가 호출됨
+        
+        그러면 자식 클래스의 over()함수 때문에 가려진 부모 클래스의 over()함수는 어떻게 호출할까?
+        네임스페이스(namaspace)에서 범위지정 연사자(::)를 이용해 부모 클래스의 함수를 호출할 수 있음
     */
     
     ThisPointExample tp(10, 20);
