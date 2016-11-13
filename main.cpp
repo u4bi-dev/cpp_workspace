@@ -1,10 +1,9 @@
 #include <iostream> 
 #include <cstring>
  
-/*  private, protected, public 상속에 대해 알아보기
-    private는 외부에서 접근이 불가능함
-    protected는 외부에서 접근이 불가능하나 파생 클래스에서는 접근이 가능함
-    public는 어디서나 접근이 가능함
+/*  객체 배열을 알아보자 Object Array
+
+    item 객체를 배열로 만들어 각각 요소들의 번호 물품명 가격등을 초기화하는 예제임
 */
 
 #define PI 3.141592
@@ -28,42 +27,34 @@ using github::win;
 
 using namespace std;
 
+class Item{
+private:
+    int id;
+    char name[10];
+    int price;
+public:
+    Item(){ cout << "생성자 호출 " << endl; }
+    void setInfo(int _id, char *_name, int _price){
+        id = _id;
+        strcpy(name, _name);
+        price = _price;
+    }
+    void getInfo(){
+        cout << "번호 : " << id << endl;
+        cout << "물품 : " << name << endl;
+        cout << "가격 : " << price << endl;
+    }
+    ~Item(){ cout << "소멸자 호출 " << endl; }
+};
+
 class Parent{
 private : int num_a;
 protected : int num_b;
 public : int num_c;
 };
-/* private 상속 */
 class Base_Private : private Parent{};
-/*
-a : error
-b : error
-c : error
-
-    private보다 접근 범위가 넓은(public, protected)멤버들은 모조리 private로 바꾸어서 넘어오는거죠.
-    모두 private 제한자로 바꾸어 상속받게 되어지는데 따라서 error가 나게 됨
-*/ 
-
-/* protected 상속 */
 class Base_Protected : protected Parent{};
-/*
-a : error
-b : error
-c : error
-
-    protected 제한자 보다 접근 범위가 넓은 멤버는 모두 protected 제한자로 바꾸어 상속함.
-*/ 
-
-/* public 상속 */
 class Base_Public : public Parent{};
-/*
-a : error
-b : error
-c : ok
-
-   public 제한자 보다 접근 범위가 넓은 멤버는 모두 public 제한자로 바뀌어 상속함
-   public 보다 접근 범위가 넓은것이 없으므로 무엇하나 바뀌지 않고 그대로 상속됨
-*/ 
  
 class memInit{
 private:
@@ -71,8 +62,6 @@ private:
     int num_b;
 public:
     memInit(int _num_a, int _num_b) : num_a(_num_a), num_b(_num_b){}
-    /* 콜론 : 연산자 뒤에 num_a() num_b()와 같이 쓰였는데 이는
-        _num_a의 값으로 num_a의 값을 초기화하고 _num_b의 값으로 num_b의 값을 초기화한단 뜻 */
     void show(){
         cout << "num a : " << num_a << " num b : " << num_b << endl;
     }
@@ -365,14 +354,35 @@ void callByReferenceExample(){
     cout << "swap 한 후 a : " << a << " b : " << b << endl;
 }
 
+void objectArrayExample(){
+    Item item[2];
+    /* 길이가 2인 item 객체 배열이 선언되었음 */
+    int id, price;
+    char name[10];
+    
+    for(int i=0; i<2; i++){
+        cout << "id : ";
+        cin >> id;
+        cout << "name : ";
+        cin >> name;
+        cout << "price : ";
+        cin >> price;
+        /* 변수값을 입력으로 받아 setInfo()함수로 넘겨 초기화시킴 */
+        item[i].setInfo(id, name, price);
+    }
+    for(int i=0; i<2; i++){
+        item[i].getInfo();
+    }
+}
+/* 위의 예제는  setInfo를 이용한 초기화 방식 */
+
 int main() {
 
+    objectArrayExample();
+    
     memInit mi(50, 70);
-    /*  mi 객체를 만들고 생성자에 50과 70이란 값을 넘김
-        여기서 멤버 이니셜라이저를 통해 멤버 변수가 초기화되고 생성자의 몸체 부분이 실행 */
     mi.show();
-    /* show()함수를 통해 출력하고 결과를 확인하면 정상적으로 초기화 됨을 확인가능 */
- 
+    
     Student stu(12, "u4bi", "coding", "c++ school");
     stu.schoolInfo();
     stu.getup();
