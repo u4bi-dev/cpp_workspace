@@ -1,7 +1,9 @@
 #include <iostream> 
 #include <cstring>
  
-/*  함수 템플릿(Function Template)은 말 그대로 함수를 찍어내는 틀임 */
+/*  클래스 템플릿(Class Template)은 클래스를 찍어내는 틀임
+    
+    템플릿을 함수에 적용하는 것과 같이 클래스에도 적용이 가능함 */
 
 #define PI 3.141592
 // #define CU(x) ((x)*(x)*(x))
@@ -24,15 +26,24 @@ using github::win;
 
 using namespace std;
 
+template <typename T>
+/* 템플릿이 정의 함수 템플릿과 정의 방법이 같음 */
+class Data{
+private: T data;
+public:
+    Data(T data) : data(data){}
+        void show(){
+        cout << data << endl;
+    }
+};
+/* 클래스 템플릿이 정의 됨 */
+
 template<typename T>
-/* T라는 이름을 이용해 아래에 위치한 함수를 템플릿으로 정의 */
-    void template_Swap(T& num_a, T& num_b){
-    /* 전달 받은 변수의 실제 값을 바꿔야하기 때문에 레퍼런스를 이용해 콜 바이 레퍼런스를 함(참조에 의한 호출)*/
+   void template_Swap(T& num_a, T& num_b){
     T temp = num_a;
     num_a = num_b;
     num_b = temp;
 }
-/* 여기서 템플릿 변수 T는 여기까지 유효 */
 
 class NumBox{
 private:
@@ -526,37 +537,33 @@ void operatorOverloadingExample(){
 
 void functionTemplateExample(){
     int num_a=10, num_b=40;
-    /* num_a와 num_b 선언과 동시 10과 40이란 값으로 각각 초기화 */
     cout << "swap 전 : num_a : " << num_a << " num_b : " << num_b << endl;
     template_Swap(num_a, num_b);
-    /* swap()함수 호출 */
     cout << "swap 후 : num_a : " << num_a << " num_b : " << num_b << endl;
-    /* 서로 바뀌어 있음 */
     
     double num_c=15.6, num_d = 14.44;
-    /* 실수형 변수를 선언과 동시 초기화 */
     cout << "swap 전 : num_c : " << num_c << " num_d : " << num_d << endl;
     template_Swap(num_c, num_d);
     cout << "swap 후 : num_c : " << num_c << " num_d : " << num_d << endl;
-    /* swap()함수 호출하여 넘겼더니 잘 바뀌어 있음 */
+}
+
+void classTemplateExample(){
+    Data<int> data_a(50);
+    data_a.show();
     
-    /*  int형이든 double형이든 자료형에 상관없이 swap함수의 본 기능을 제대로 수행하고 있음을 확인할 수 있음
-        
-        이는 컴파일러가 인자의 자료형을 보고 T의 타입을 유추하는 것임 
-        
-        template_Swap<int>(num_a, num_b);
-        template_Swap<double>(num_c, num_d);
-        위 처럼 명시적으로 해석하도록 타입을 지정해도 된다고 함
-        
-        템플릿 정의할때 꼭 T라는 이름이 아니여도 된다 함.
-        일반적으로 쓰이는 이름이 T라고 함
-        
-        또 typename을 class로 써도 상관 없다함.
-        typename T나 class T나 같은 의미를 지닌다 함.
-    */
+    Data<char> data_b('A');
+    data_b.show();
+    
+    Data<double> data_c(14.345);
+    data_c.show();
+    
+    /*  생성된 객체들을 보면 자료형이 적혀져 있는데 템플릿 함수에선 생략이 가능하지만
+        템플릿 클래스에선 생략이 안된다 함 */
 }
 
 int main() {
+    
+    classTemplateExample();
     
     functionTemplateExample();
     
