@@ -1,10 +1,13 @@
 #include <iostream> 
 #include <cstring>
  
-/*  예외처리(Exception Handling)에서 예외(Exception)이란 프로그램 실행 도중에 일어나는
-    비정상적인 상황을 의미하는데 이런 상황이 벌어질 때 처리하는 과정을 예외처리라고 함
+/*  try~catch(시도하다~잡다) thow(던지다)
+    C++에서 제공하는 예외처리 메커니즘인 try~catch, throw
     
-    나눗셈 프로그램에서 두개의 정수를 입력 받을때 나누는 수를 0으로 입력한것과 같은 예외 예제
+    예외가 발생할만한 영역를 try로 감싸고 그 뒤에 try 영역 내에서 예외 조건이 만족하면
+    throw로 그 예외를 던지면 catch가 그 예외를 잡아 처리를 해준다 함
+    
+    catch문이 굳이 하나가 아니라 두개 이상 등장해도 됨
 */
 
 #define PI 3.141592
@@ -576,7 +579,27 @@ void exceptionHandlingExample(){
 */
 }
 
+void trycatchThrowExample(){
+    int a, b;
+    
+    cout << "두개의 정수 입력: ";
+    cin >> a >> b;
+    /* a와 b값을 입력하게 하고난 후 try 영역 안으로 진입 */
+    
+    try{
+        if(b == 0) throw b;
+        /* 만약 b가 0이면 이 b를 throw를 이용해 예외로 던져 버림 */
+        cout << a << "를 " << b << "로 나눈 몫 : " << a/b << endl;
+    }catch (int exception){
+        /* 그럼 이렇게 던져진 예외는 예외 데이터인 exception에 b의 값이 들어가고 catch가 잡아 처리함 */
+        cout << "예외 발생 : 나누는 수가 0이 될 수 없음" << endl;
+    }
+    /* 만약 예외가 발생하지 않으면 catch 영역은 실행되지 않음 */
+}
+
 int main() {
+    
+    trycatchThrowExample();
     
     exceptionHandlingExample();
     
