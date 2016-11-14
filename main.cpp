@@ -1,10 +1,11 @@
 #include <iostream> 
 #include <cstring>
  
-/*  함수 예외처리(function exception handling)
+/*  스택 풀기 (Stack Unwinding)
+    함수 인셉션처럼 예외를 처리하는 영역이 없어 이 예외가 호출된 영역을 타고
+    계속 전달되는 현상을 가리켜 스택 언와인딩이라고 함 
     
-    함수에서 예외가 발생했을 경우에 예외처리 예제
-*/
+    Stack Unwinding 현상에 대한 간단한 예 */
 
 #define PI 3.141592
 // #define CU(x) ((x)*(x)*(x))
@@ -583,11 +584,8 @@ void trycatchThrowExample(){
 }
 
 void exceptionFunc(int a, int b){
-/* func()란 함수 정의 */
     if(b == 0) throw b;
-    /* b의 값이 0일 경우에 예외를 던짐 */
     cout << a << "를 " << b << "로 나눈 몫 : " << a/b << endl;
-    /* 하지만 func()함수 내에는 예외를 처리하는 영역이 없기 때문에 func()함수가 호출된 영역으로 예외 전달해야함 */
 }
 
 void functionExceptionHandlingExample(){
@@ -598,16 +596,39 @@ void functionExceptionHandlingExample(){
     
     try{
         exceptionFunc(a, b);
-        /* try내에서 func()함수가 호출 함수내에서 예외가 발생하면 예외 데이터를 호출 영역으로 다시 전달함 */
     } catch(int exception){
-        /* 그럼 전달된 예외 데이터를 catch 영역이 잡아 처리 */
         cout << "예외 발생 : 나누는 수가 0이 될 수 없음" << endl;
     }
-    
-    /* 참고로 기본 데이터형(int, char등..)뿐만 아니라 객체(object)도 예외로 던질 수 있다 함 */
 }
 
+/* func_a ~ func_d까지 함수 정의 */
+void stackunwindingFunc_a(){ throw 0; }
+/* func_a에서 예외 데이터를 던짐 */
+void stackunwindingFunc_b(){ stackunwindingFunc_a(); }
+void stackunwindingFunc_c(){ stackunwindingFunc_b(); }
+void stackunwindingFunc_d(){ stackunwindingFunc_c(); }
+/* 각각 함수 호출 */
+
+void stackUnwindingExample(){
+    try{
+        stackunwindingFunc_d();
+    } catch(int exception){
+        cout << "예외 발생 : " << exception << endl;
+    }
+}
+/*  예외 데이터가 넘어가는 순서
+    호출영역에서 d 호출 > c > b > a > 예외데이터 던짐 >
+    예외데이터 받고 b > 받고 c > 받고 d >
+    다시 호출영역 > catch(예외처리영역)으로 던짐 -> 예외처리
+*/
+
+/*  각 함수의 스택 프레임이 생성됨 그리고 func_a()에서 throw를 만나고 자신과 자기를 호출한
+    함수의 스택을 모두 해제하고 돌아감 이것이 스택 언와이딩 스택풀기(Stack Unwinding)이라고 함
+*/
+
 int main() {
+
+    stackUnwindingExample();
     
     functionExceptionHandlingExample();
     
