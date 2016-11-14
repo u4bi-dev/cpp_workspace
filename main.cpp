@@ -1,11 +1,10 @@
 #include <iostream> 
 #include <cstring>
  
-/*  함수 포인터(function pointer)는 당연히 함수를 가리키는 포인터가 있다는거임
-    함수를 가리키는 포인터가 있다는 것은 함수에도 주소가 존재한다는걸 알 수 있음
+/*  맴버 함수 포인터(Member Function Pointer)는 클래스 내부에 있는 함수로써 클래스가 멤버로 가지는 함수를 의미함 
+    그렇다면 멤버 함수 포인터는 멤버 함수를 가리키는 포인터를 의미함
     
-    함수명은 함수의 시작 주소를 의미하고 이 함수 포인터를 선언할 때에는 함수 시그너쳐와 같도록 선언해야 한다고 함
-    다른 말로 원형과 같도록 선언해야 한다는데 아래에서 다뤄 보겠음
+    멤버 함수 포인터를 선언하는 방법은 정적 함수 포인터를 선언하는 방법과 조금 다름
 */
 
 #define PI 3.141592
@@ -28,6 +27,17 @@ using namespace u4bi;
 using github::win;
 
 using namespace std;
+
+class Rectangle{
+private :
+    int width;
+    int height;
+public:
+    explicit Rectangle(int width=0, int height = 0) : width(width), height(height){}
+    int area(){ return width * height; }
+    /*  위 area() 함수의 반환형은 int이며 매개변수의 타입은 int, int 임
+        area()함수는 Rectangle 클래스의 멤버 함수 */
+};
 
 template <typename T>
 class Data{
@@ -616,31 +626,42 @@ void stackUnwindingExample(){
 }
 
 int sum(int a, int b){ return a+b;}
-/* sum()함수 정의 반환형은 int 매개변수는 int int임 */
 void functionPointerExample(){
     int (*pf)(int, int) = sum;
-/*  그럼 함수 포인트는 위처럼 선언할 수 있음 */
     
     cout << "pf : " << pf(7, 3) << endl;
     cout << "sum : " << sum(7, 3) << endl;
-    /* 둘다 같은 값을 반환 */
     
     cout << "pf 주소 : " << pf << endl;
     cout << "sum 주소 : " << sum << endl;
-    /* 주소도 동일함 */
 }
 
-/*  위와 같이 선언을 하고 초기화를 한 후로부터 함수 포인터 pf는 함수 sum의 시작 주소를 가리킴
-    이제부터 함수 포인터 pf를 가지고 함수 sum에 인자를 전달하는 것과 동일하게 전달할 수 있음
+void memberFunctionPointerExample(){
+    Rectangle rc(10, 5);
+    /* 함수 원형에 따라 아래와 같이 함수 포인터를 선언 */
+    int (Rectangle::*pf)(int, int) = &Rectangle::area;
+    /* pf가 Rectangle클래스에서 area 멤버 함수의 시작 주소를 가리키도록 함 */
     
-    만약 sum의 반환형이 void라면
-    void sum(int a, int b)
+    cout << "rc.area() : " << rc.area() << endl;
+    cout << "(rc.*pf)() : " << (rc.*pf)() << endl;
+    /* rc.area()와 (rc.*pf)()의 반환값을 출력함 두 결과값은 동일하다는걸 알 수 있음 */
     
-    아래와 같은 원형을 가짐
-    void (*pf)(int, int) = sum;
-*/
+    /*  (rc.*pf)()처럼 객체를 통해 멤버 함수를 호출할 때에는 .*연산자가 사용됨
+        만약 연산자 우선순위 때문에 괄호를 제거하여 rc.*pf()와 같이 호출하면 오류가 발생한다고 함. 반드시 괄호 포함
+    */
+    
+    /*  만약 Lion클래스의 cry()함수 원형이 아래와 같다고 가정
+        void Lion::cry()
+        이는 반환형이 void고 매개변수의 타입도 void임 그리고 cry()함수는 Lion 클래스의 멤버 함수임
+        
+        아래와 같이 함수 포인터를 선언할 수 있다고 함.
+        void (Lion::*pf)() = &Lion::cry;
+    */
+}
 
 int main() {
+    
+    memberFunctionPointerExample();
 
     functionPointerExample();
     
