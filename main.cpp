@@ -1,7 +1,7 @@
 #include <iostream> 
 #include <cstring>
  
-/*  연산자 오버로딩(Operator Overloading) */
+/*  함수 템플릿(Function Template)은 말 그대로 함수를 찍어내는 틀임 */
 
 #define PI 3.141592
 // #define CU(x) ((x)*(x)*(x))
@@ -24,23 +24,27 @@ using github::win;
 
 using namespace std;
 
-/* NumBox란 클래스 정의*/
+template<typename T>
+/* T라는 이름을 이용해 아래에 위치한 함수를 템플릿으로 정의 */
+    void template_Swap(T& num_a, T& num_b){
+    /* 전달 받은 변수의 실제 값을 바꿔야하기 때문에 레퍼런스를 이용해 콜 바이 레퍼런스를 함(참조에 의한 호출)*/
+    T temp = num_a;
+    num_a = num_b;
+    num_b = temp;
+}
+/* 여기서 템플릿 변수 T는 여기까지 유효 */
+
 class NumBox{
 private:
     int num_a, num_b;
-    /* 멤버변수 num_a와 num_b */
 public:
     NumBox(int num_a, int num_b) : num_a(num_a), num_b(num_b){}
-    /*그리고 생성자와 값을 출력해주는 show()함수 */
     void show(){
         cout << "num_a : " << num_a << " num_b : " << num_b << endl;
     }
     NumBox operator+(NumBox &ref){
         return NumBox(num_a+ref.num_a, num_b+ref.num_b);
     }
-    /*  operator+라는 특이함 함수가 정의
-        안에 보면 전달 받은 객체와 자신의 멤버 변수를 서로 더해 NumBox 임시 객체를 만듬
-        이 임시 객체가 반환(return)됨 */
 };
 
 class ParentOne{ public : void funcOne(){ cout << "funcOne() 호출 " << endl; } };
@@ -511,15 +515,8 @@ void multipleInheritanceExample(){
 void operatorOverloadingExample(){
     NumBox nb_a(10, 20);
     NumBox nb_b(5, 2);
-    /* nb_a, nb_b 객체 생성과 동시 값 초기화 */
     NumBox result = nb_a + nb_b;
-    /* 선언된 result 객체에 nb_a와 nb_b를 더한 값을 result로 대입 */
     NumBox result2 = nb_a.operator+(nb_b);
-    /* nb_a 객체의 operator+ 함수로 nb_b의 객체를 인자로 넘겨줌
-    
-    두개다 동일한 결과임
-    operator+ 함수를 호출하는 방식을 통하던 +만 쓰는 결과든 동일함 
-    즉 + 연산자를 사용해 NumBox 객체를 대상으로 연산을 진행하면 알아서 그 객체의 operator+ 함수가 호출된다는거임     */
     
     nb_a.show();
     nb_b.show();
@@ -527,7 +524,41 @@ void operatorOverloadingExample(){
     result2.show();
 }
 
+void functionTemplateExample(){
+    int num_a=10, num_b=40;
+    /* num_a와 num_b 선언과 동시 10과 40이란 값으로 각각 초기화 */
+    cout << "swap 전 : num_a : " << num_a << " num_b : " << num_b << endl;
+    template_Swap(num_a, num_b);
+    /* swap()함수 호출 */
+    cout << "swap 후 : num_a : " << num_a << " num_b : " << num_b << endl;
+    /* 서로 바뀌어 있음 */
+    
+    double num_c=15.6, num_d = 14.44;
+    /* 실수형 변수를 선언과 동시 초기화 */
+    cout << "swap 전 : num_c : " << num_c << " num_d : " << num_d << endl;
+    template_Swap(num_c, num_d);
+    cout << "swap 후 : num_c : " << num_c << " num_d : " << num_d << endl;
+    /* swap()함수 호출하여 넘겼더니 잘 바뀌어 있음 */
+    
+    /*  int형이든 double형이든 자료형에 상관없이 swap함수의 본 기능을 제대로 수행하고 있음을 확인할 수 있음
+        
+        이는 컴파일러가 인자의 자료형을 보고 T의 타입을 유추하는 것임 
+        
+        template_Swap<int>(num_a, num_b);
+        template_Swap<double>(num_c, num_d);
+        위 처럼 명시적으로 해석하도록 타입을 지정해도 된다고 함
+        
+        템플릿 정의할때 꼭 T라는 이름이 아니여도 된다 함.
+        일반적으로 쓰이는 이름이 T라고 함
+        
+        또 typename을 class로 써도 상관 없다함.
+        typename T나 class T나 같은 의미를 지닌다 함.
+    */
+}
+
 int main() {
+    
+    functionTemplateExample();
     
     operatorOverloadingExample();
     
