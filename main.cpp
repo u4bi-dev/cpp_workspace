@@ -1,13 +1,9 @@
 #include <iostream> 
 #include <cstring>
  
-/*  try~catch(시도하다~잡다) thow(던지다)
-    C++에서 제공하는 예외처리 메커니즘인 try~catch, throw
+/*  함수 예외처리(function exception handling)
     
-    예외가 발생할만한 영역를 try로 감싸고 그 뒤에 try 영역 내에서 예외 조건이 만족하면
-    throw로 그 예외를 던지면 catch가 그 예외를 잡아 처리를 해준다 함
-    
-    catch문이 굳이 하나가 아니라 두개 이상 등장해도 됨
+    함수에서 예외가 발생했을 경우에 예외처리 예제
 */
 
 #define PI 3.141592
@@ -562,9 +558,6 @@ void classTemplateExample(){
 }
 
 void exceptionHandlingExample(){
-/*  6를 2로 나눈다거나 4를 3으로 나누면 출력이 잘되나 나누는 수를 0으로 두면 프로그램이 에러가 나 종료됨
-    이를 위해 예외처리 선언을 해줘야 함 */
-    
     int a, b;
     
     cout << "두개의 정수 입력 : ";
@@ -573,10 +566,6 @@ void exceptionHandlingExample(){
         cout << "나누는 수가 0이 될 수 없음 " << endl;
     else
         cout << a << "를 " << b << "로 나눈 몫 : " << a/b << endl;
-
-/*  if else를 통해 에러가 나지 않게 처리를 할 수 있으나 이런 방식으로 예외를 처리하게 되면
-    예외가 발생할 때마다 위처럼 처리를 해줘야 하기 때문에 중복 코드만 늘어나거나 예외 처리의 구분이 명확하지 않음
-*/
 }
 
 void trycatchThrowExample(){
@@ -584,20 +573,43 @@ void trycatchThrowExample(){
     
     cout << "두개의 정수 입력: ";
     cin >> a >> b;
-    /* a와 b값을 입력하게 하고난 후 try 영역 안으로 진입 */
     
     try{
         if(b == 0) throw b;
-        /* 만약 b가 0이면 이 b를 throw를 이용해 예외로 던져 버림 */
         cout << a << "를 " << b << "로 나눈 몫 : " << a/b << endl;
     }catch (int exception){
-        /* 그럼 이렇게 던져진 예외는 예외 데이터인 exception에 b의 값이 들어가고 catch가 잡아 처리함 */
         cout << "예외 발생 : 나누는 수가 0이 될 수 없음" << endl;
     }
-    /* 만약 예외가 발생하지 않으면 catch 영역은 실행되지 않음 */
+}
+
+void exceptionFunc(int a, int b){
+/* func()란 함수 정의 */
+    if(b == 0) throw b;
+    /* b의 값이 0일 경우에 예외를 던짐 */
+    cout << a << "를 " << b << "로 나눈 몫 : " << a/b << endl;
+    /* 하지만 func()함수 내에는 예외를 처리하는 영역이 없기 때문에 func()함수가 호출된 영역으로 예외 전달해야함 */
+}
+
+void functionExceptionHandlingExample(){
+    int a, b;
+    
+    cout << "[function exception] 두개의 정수 입력: ";
+    cin >> a >> b;
+    
+    try{
+        exceptionFunc(a, b);
+        /* try내에서 func()함수가 호출 함수내에서 예외가 발생하면 예외 데이터를 호출 영역으로 다시 전달함 */
+    } catch(int exception){
+        /* 그럼 전달된 예외 데이터를 catch 영역이 잡아 처리 */
+        cout << "예외 발생 : 나누는 수가 0이 될 수 없음" << endl;
+    }
+    
+    /* 참고로 기본 데이터형(int, char등..)뿐만 아니라 객체(object)도 예외로 던질 수 있다 함 */
 }
 
 int main() {
+    
+    functionExceptionHandlingExample();
     
     trycatchThrowExample();
     
