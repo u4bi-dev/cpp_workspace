@@ -1,9 +1,11 @@
 #include <iostream> 
 #include <cstring>
  
-/*  클래스 템플릿(Class Template)은 클래스를 찍어내는 틀임
+/*  예외처리(Exception Handling)에서 예외(Exception)이란 프로그램 실행 도중에 일어나는
+    비정상적인 상황을 의미하는데 이런 상황이 벌어질 때 처리하는 과정을 예외처리라고 함
     
-    템플릿을 함수에 적용하는 것과 같이 클래스에도 적용이 가능함 */
+    나눗셈 프로그램에서 두개의 정수를 입력 받을때 나누는 수를 0으로 입력한것과 같은 예외 예제
+*/
 
 #define PI 3.141592
 // #define CU(x) ((x)*(x)*(x))
@@ -27,7 +29,6 @@ using github::win;
 using namespace std;
 
 template <typename T>
-/* 템플릿이 정의 함수 템플릿과 정의 방법이 같음 */
 class Data{
 private: T data;
 public:
@@ -36,7 +37,6 @@ public:
         cout << data << endl;
     }
 };
-/* 클래스 템플릿이 정의 됨 */
 
 template<typename T>
    void template_Swap(T& num_a, T& num_b){
@@ -556,12 +556,29 @@ void classTemplateExample(){
     
     Data<double> data_c(14.345);
     data_c.show();
+}
+
+void exceptionHandlingExample(){
+/*  6를 2로 나눈다거나 4를 3으로 나누면 출력이 잘되나 나누는 수를 0으로 두면 프로그램이 에러가 나 종료됨
+    이를 위해 예외처리 선언을 해줘야 함 */
     
-    /*  생성된 객체들을 보면 자료형이 적혀져 있는데 템플릿 함수에선 생략이 가능하지만
-        템플릿 클래스에선 생략이 안된다 함 */
+    int a, b;
+    
+    cout << "두개의 정수 입력 : ";
+    cin >> a >> b;
+    if(b == 0)
+        cout << "나누는 수가 0이 될 수 없음 " << endl;
+    else
+        cout << a << "를 " << b << "로 나눈 몫 : " << a/b << endl;
+
+/*  if else를 통해 에러가 나지 않게 처리를 할 수 있으나 이런 방식으로 예외를 처리하게 되면
+    예외가 발생할 때마다 위처럼 처리를 해줘야 하기 때문에 중복 코드만 늘어나거나 예외 처리의 구분이 명확하지 않음
+*/
 }
 
 int main() {
+    
+    exceptionHandlingExample();
     
     classTemplateExample();
     
