@@ -1,11 +1,12 @@
 #include <iostream> 
 #include <cstring>
  
-/*  스택 풀기 (Stack Unwinding)
-    함수 인셉션처럼 예외를 처리하는 영역이 없어 이 예외가 호출된 영역을 타고
-    계속 전달되는 현상을 가리켜 스택 언와인딩이라고 함 
+/*  함수 포인터(function pointer)는 당연히 함수를 가리키는 포인터가 있다는거임
+    함수를 가리키는 포인터가 있다는 것은 함수에도 주소가 존재한다는걸 알 수 있음
     
-    Stack Unwinding 현상에 대한 간단한 예 */
+    함수명은 함수의 시작 주소를 의미하고 이 함수 포인터를 선언할 때에는 함수 시그너쳐와 같도록 선언해야 한다고 함
+    다른 말로 원형과 같도록 선언해야 한다는데 아래에서 다뤄 보겠음
+*/
 
 #define PI 3.141592
 // #define CU(x) ((x)*(x)*(x))
@@ -601,13 +602,10 @@ void functionExceptionHandlingExample(){
     }
 }
 
-/* func_a ~ func_d까지 함수 정의 */
 void stackunwindingFunc_a(){ throw 0; }
-/* func_a에서 예외 데이터를 던짐 */
 void stackunwindingFunc_b(){ stackunwindingFunc_a(); }
 void stackunwindingFunc_c(){ stackunwindingFunc_b(); }
 void stackunwindingFunc_d(){ stackunwindingFunc_c(); }
-/* 각각 함수 호출 */
 
 void stackUnwindingExample(){
     try{
@@ -616,18 +614,36 @@ void stackUnwindingExample(){
         cout << "예외 발생 : " << exception << endl;
     }
 }
-/*  예외 데이터가 넘어가는 순서
-    호출영역에서 d 호출 > c > b > a > 예외데이터 던짐 >
-    예외데이터 받고 b > 받고 c > 받고 d >
-    다시 호출영역 > catch(예외처리영역)으로 던짐 -> 예외처리
-*/
 
-/*  각 함수의 스택 프레임이 생성됨 그리고 func_a()에서 throw를 만나고 자신과 자기를 호출한
-    함수의 스택을 모두 해제하고 돌아감 이것이 스택 언와이딩 스택풀기(Stack Unwinding)이라고 함
+int sum(int a, int b){ return a+b;}
+/* sum()함수 정의 반환형은 int 매개변수는 int int임 */
+void functionPointerExample(){
+    int (*pf)(int, int) = sum;
+/*  그럼 함수 포인트는 위처럼 선언할 수 있음 */
+    
+    cout << "pf : " << pf(7, 3) << endl;
+    cout << "sum : " << sum(7, 3) << endl;
+    /* 둘다 같은 값을 반환 */
+    
+    cout << "pf 주소 : " << pf << endl;
+    cout << "sum 주소 : " << sum << endl;
+    /* 주소도 동일함 */
+}
+
+/*  위와 같이 선언을 하고 초기화를 한 후로부터 함수 포인터 pf는 함수 sum의 시작 주소를 가리킴
+    이제부터 함수 포인터 pf를 가지고 함수 sum에 인자를 전달하는 것과 동일하게 전달할 수 있음
+    
+    만약 sum의 반환형이 void라면
+    void sum(int a, int b)
+    
+    아래와 같은 원형을 가짐
+    void (*pf)(int, int) = sum;
 */
 
 int main() {
 
+    functionPointerExample();
+    
     stackUnwindingExample();
     
     functionExceptionHandlingExample();
