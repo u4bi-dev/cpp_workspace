@@ -639,7 +639,7 @@ void functionPointerExample(){
 void memberFunctionPointerExample(){
     Rectangle rc(10, 5);
     /* 함수 원형에 따라 아래와 같이 함수 포인터를 선언 */
-    int (Rectangle::*pf)(int, int) = &Rectangle::area;
+    int (Rectangle::*pf)(void) = &Rectangle::area;
     /* pf가 Rectangle클래스에서 area 멤버 함수의 시작 주소를 가리키도록 함 */
     
     cout << "rc.area() : " << rc.area() << endl;
