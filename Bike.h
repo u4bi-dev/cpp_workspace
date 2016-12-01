@@ -9,7 +9,7 @@ namespace CAR_CONST{ /**/
 }
 
 /* car 클래스 선언*/
-class Car{
+class Bike{
 private:
     char playerName[CAR_CONST::ID_LEN]; /* 유저이름 [상수 이름의 랭쓰]*/
     int fuelGauge; /* 기름게이지*/
