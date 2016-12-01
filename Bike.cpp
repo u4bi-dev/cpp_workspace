@@ -15,8 +15,15 @@ void Bike::showBikeState(){
   cout << "이름 : " << playerName << " 현재 연료 : " << fuelGauge << " 현재 속도 : " << speedGauge << endl;
 }
 
+/* 바이크 엑셀 당김*/
 void Bike::bikeAccel(){
   cout << "부아아아앙" << endl;
   if(fuelGauge <= 0) return; /* 0이거나 0이 더 높으면 리턴*/
   else fuelGauge -= CAR_CONST::FUEL_STEP; /*아니면 상수에 설정된 만큼 차감하기*/
+  
+  if( (speedGauge+CAR_CONST::ACC_STEP) >= CAR_CONST::MAX_SPD) speedGauge = CAR_CONST::MAX_SPD; return;
+  /* (현재속도+더해질 초기 상수속도값)이 최대속도(MAX_SPD)보다 높거나 같을때 최대속도로 변경하고 리턴*/
+  speedGauge += CAR_CONST::ACC_STEP;
+  /*그게 아니여서 리턴이 안되면 현재 속도에 ACC_STEP 속도값을 더해줌*/
+  
 }
