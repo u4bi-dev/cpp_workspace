@@ -16,6 +16,10 @@ private:
     int speedGauge; /* 속도게이지*/
   
 public:
+  void initPlayer(char *NAME, int fuel); /* 이닛 유저이름, 초기 주입될 기름*/
+  void showBikeState(); /* 현재 바이크 상태보기*/
+  void bikeAccel(); /* 바이크 엑셀 당김*/
+  void bikeBreak(); /* 바이크 브레이크 당김*/
 }
 
 #endif
