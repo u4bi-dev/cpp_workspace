@@ -1,10 +1,14 @@
 #include <iostream> 
 #include <cstring>
+#include "Car.h"
  
-/*  맴버 함수 포인터(Member Function Pointer)는 클래스 내부에 있는 함수로써 클래스가 멤버로 가지는 함수를 의미함 
-    그렇다면 멤버 함수 포인터는 멤버 함수를 가리키는 포인터를 의미함
-    
-    멤버 함수 포인터를 선언하는 방법은 정적 함수 포인터를 선언하는 방법과 조금 다름
+/* C++에서의 파일 분할
+   대부분의 프로그램은 하나의 파일에 모든걸 담지 않음.
+   특히 c++과 같은 객체지향 언어는 더함.
+   
+   c++은 클래스 별로 헤더파일과 소스파일을 생성해서
+   클래스의 선언과 정의를 분리하는 경우가 많다고 함.
+   많은 수의 파일이 만들어짐
 */
 
 #define PI 3.141592
@@ -661,6 +665,15 @@ void memberFunctionPointerExample(){
 
 int main() {
     
+    Car u4biCar;
+    u4biCar.initMembers("u4bi", 100);
+    u4biCar.Accel();
+    u4biCar.Accel();
+    u4biCar.Accel();
+    u4biCar.showCarState();
+    u4biCar.Break();
+    u4biCar.showCarState();
+  
     memberFunctionPointerExample();
 
     functionPointerExample();
