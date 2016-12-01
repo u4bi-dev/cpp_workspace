@@ -27,3 +27,11 @@ void Bike::bikeAccel(){
   /*그게 아니여서 리턴이 안되면 현재 속도에 ACC_STEP 속도값을 더해줌*/
   
 }
+
+void Bike::bikeBreak(){
+  cout << "끼이이익" << endl;
+  if(speedGauge < CAR_CONST::BRK_STEP) speedGauge = 0; return; /* BRK_STEP이 더 높을 때 현재 속도 0으로 변경하고 리턴*/
+  speedGauge -= CAR_CONST::BRK_STEP;
+  /*그게 아니여서 리턴이 안되면 현재 속도값에서 BRK_STEP값 만큼 빼줌*/
+  
+}
