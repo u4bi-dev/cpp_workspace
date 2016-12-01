@@ -1,6 +1,7 @@
 #include <iostream> 
 #include <cstring>
 #include "Car.h"
+#include "Bike.h"
  
 /* C++에서의 파일 분할
    대부분의 프로그램은 하나의 파일에 모든걸 담지 않음.
@@ -664,6 +665,15 @@ void memberFunctionPointerExample(){
 }
 
 int main() {
+  
+    Bike bike; /* 바이크 생성*/
+    bike.initPlayer("bikeman", 100); /* 이닛 이름이랑 기름 정의해줌*/
+    bike.bikeAccel();
+    bike.bikeAccel();
+    bike.bikeAccel(); /* 부왕 부왕 부왕 세번함 */
+    bike.showBikeState(); /* 계기판을 쓰윽 흝어봄 엑셀을 당김으로 엔진이 돌아서 기름이 일정량 빠져나감 */
+    bike.bikeBreak(); /* 너무 빨라서 멈춤 끼이 익*/
+    bike.showBikeState(); /* 속도보고 안도함 다리가 후덜덜*/
     
     Car u4biCar;
     u4biCar.initMembers("u4bi", 100);
