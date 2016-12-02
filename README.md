@@ -91,3 +91,17 @@
 #### 39. 멤버 함수 포인터
 ###### [member function pointer](https://github.com/u4bi/cpp_workspace/commit/1ff0c6e526e3971a0b2b4181ff45c6b9a28fe8a4)
 ###### [member function pointer [rc *pf int, int < - void] ](https://github.com/u4bi/cpp_workspace/commit/e65534c5ee91aa3b79a7bda1562dccbf8b2595dd)
+#### C++에서의 파일 분할
+###### [demo example - car header](https://github.com/u4bi/cpp_workspace/commit/c6e07e215f56dbfac70f6e6134e1922dc4de2579)
+- ###### [Step 1 --- Bike header - init](https://github.com/u4bi/cpp_workspace/commit/3d68bcf73a1e46420132b48ecb70d8f0307bbd08)
+- ###### [Step 2 --- Bike header - CAR_CONST enum](https://github.com/u4bi/cpp_workspace/commit/7eedd0f418ae3c1678c8ebfd76c108fbad8492b9)
+- ###### [Step 3 --- Bike header - class car private](https://github.com/u4bi/cpp_workspace/commit/14d796db310b2ba76dae3204af467a7dd19d89d0)
+- ###### [Step 4 --- Bike header - class car public](https://github.com/u4bi/cpp_workspace/commit/2ce3ee65c5ec66718df99e8aa0423653729476d6)
+- ###### [Step 5 --- Bike header - rename class Car -> Bike](https://github.com/u4bi/cpp_workspace/commit/dbc1b40fb39b6dca1498f543c0e64914e5f0c132)
+- ###### [Step 6 --- Bike header - comment](https://github.com/u4bi/cpp_workspace/commit/cb71675e1d8a1d868a156f8ded49bb74d6b3b447)
+- ###### [Step 7 --- Bike header - Bike.cpp initPlayer](https://github.com/u4bi/cpp_workspace/commit/cdfb8cc2fa4523d98647e7d9fea2b765471aa1a3)
+- ###### [Step 8 --- Bike header - Bike.cpp showBikeState](https://github.com/u4bi/cpp_workspace/commit/8f72704ff90e6aac0d0c1cc3a460f91761903899)
+- ###### [Step 9 --- Bike header - Bike.cpp bikeAccel 1](https://github.com/u4bi/cpp_workspace/commit/eed25b6fd10dbdce50b3098923042f4aad5984ae)
+- ###### [Step 10 --- Bike header - Bike.cpp bikeAccel 2](https://github.com/u4bi/cpp_workspace/commit/b32ad01f939a4c6eda0a433dad39564c13fc3d3e)
+- ###### [Step 11 --- Bike header - Bike.cpp bikeBreak](https://github.com/u4bi/cpp_workspace/commit/0a99d3487830183c2bc566915376605449900119)
+- ###### [Step 12 --- Bike header - main include Bike.h](https://github.com/u4bi/cpp_workspace/commit/0217339f27c47bddb8bd1da540308d83ef6ae4d9)
